@@ -1,21 +1,20 @@
 {
   "name": "qpho",
   "version": "0.0.0",
+  "homepage": "https://github.com/dogcaesar/qpho",
   "authors": [
     "David Ochoa <ochoa@ebi.ac.uk>"
   ],
-  "description": "An Atlas of Human Quantitative Phosphoproteomics",
+  "description": "Page under development",
   "license": "MIT",
-  "homepage": "http://glenalmondtea.org",
+  "private": true,
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
-    "test",
-    "tests"
   ],
   "dependencies": {
-      "bootstrap-sass": "~3.3.5",
-      "bootswatch-dist": "~3.3.0-yeti"
+      "bootstrap": "~3.3.5"
+      "jquery": "~2.1.4"
   }
 }
