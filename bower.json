@@ -1,0 +1,21 @@
+{
+  "name": "qpho",
+  "version": "0.0.0",
+  "authors": [
+    "David Ochoa <ochoa@ebi.ac.uk>"
+  ],
+  "description": "An Atlas of Human Quantitative Phosphoproteomics",
+  "license": "MIT",
+  "homepage": "http://glenalmondtea.org",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+      "bootstrap-sass": "~3.3.5",
+      "bootswatch-dist": "~3.3.0-yeti"
+  }
+}
