@@ -6,16 +6,19 @@ description: > # this means to ignore newlines until "baseurl:"
   line in _config.yml. It will appear in your document head meta (for
   Google search results) and in your feed.xml site description.
 baseurl: "/qpho" # the subpath of your site, e.g. /blog/
-url: "http://dogcaesar.github.io" # the base hostname & protocol for your site
+url: "http://localhost/~ochoa" # the base hostname & protocol for your site
 
 # Build settings
 markdown: kramdown
 
-#Bower components
 exclude:
   - "bower_components"
   - "bower.json"
-
+  - "node_modules"
+  - "package.json"
+  - "Gruntfile.coffee"
+  - "Rakefile"
+  
 assets:
   cache: false
   cdn: https://cdn.example.com
@@ -26,9 +29,7 @@ assets:
     - "bundle.css"
   digest: true
   sources:
-    - "bower_components/bootstrap-sass/assets/stylesheets"
-    - "bower_components/bootstrap-sass/assets/javascripts"
-    - "_assets/javascripts"
-    - "_assets/stylesheets"
-    - "_vendors/stylesheets"
-    - "_vendors/javascripts"
+    - "_assets/js"
+    - "_assets/css"
+    - "_assets/css/vendor"
+    - "_assets/js/vendor"
