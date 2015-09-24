@@ -6,15 +6,17 @@
     "David Ochoa <ochoa@ebi.ac.uk>"
   ],
   "description": "Page under development",
+  "main": "index.html",
   "license": "MIT",
-  "private": true,
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
+    "test",
+    "tests"
   ],
   "dependencies": {
-      "bootstrap": "~3.3.5"
-      "jquery": "~2.1.4"
+    "bootstrap": "~3.3.5",
+    "jquery": "~2.1.4"
   }
 }
