@@ -132,8 +132,8 @@ module.exports = (grunt) ->
     concat:
       vendor: {
         src: [
-          'bower_components/jquery/jquery.js',
-          'bower_components/bootstrap/dist/js/bootstrap.js',
+          'bower_components/jquery/dist/jquery.js',
+          'bower_components/bootswatch-dist/js/bootstrap.js',
         ],
         dest: "assets/vendor.js"
       }
@@ -142,9 +142,9 @@ module.exports = (grunt) ->
       bootstrap: {
         files: [
           expand:true
-          cwd: 'bower_components/bootstrap/dist'
+          cwd: 'bower_components/bootswatch-dist/'
           src: ['**']
-          dest: 'assets/bootstrap/'
+          dest: 'assets/bootswatch/'
         ]
       }
       
