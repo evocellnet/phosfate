@@ -2,4 +2,5 @@ _site
 .sass-cache
 /bower_components/
 /node_modules/
+/assets
 
