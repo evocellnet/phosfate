@@ -2,25 +2,16 @@
 "use strict"
 
 module.exports = (grunt) ->
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-less');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-exec');
+  grunt.loadNpmTasks "grunt-bower-task"
+  grunt.loadNpmTasks 'grunt-contrib-copy';
+  grunt.loadNpmTasks 'grunt-exec';
+  grunt.loadNpmTasks "grunt-contrib-connect"
+  grunt.loadNpmTasks "grunt-contrib-watch"
+  
   # grunt.loadNpmTasks('grunt-github-pages');
 
 
-  grunt.initConfig
-    # concat:
-    #   vendor: {
-    #     src: [
-    #       'bower_components/jquery/dist/jquery.js',
-    #       'bower_components/bootswatch-dist/js/bootstrap.js',
-    #       'bower_components/d3/d3.js',
-    #     ],
-    #     dest: "assets/vendor.js"
-    #   }
-      
+  grunt.initConfig      
     copy:
       bootstrap: {
         files: [{
@@ -58,14 +49,11 @@ module.exports = (grunt) ->
       }
       
     exec:
-      build: {
-        cmd: 'jekyll build'
-      },
-      serve: {
-        cmd: 'jekyll serve --baseurl= --watch'
-      }
-  
-
+      build:
+        cmd: 'jekyll build --trace'
+      serve:
+        cmd: 'jekyll serve --watch'
+          
     # githubPages: {
     #   target: {
     #     options: {
@@ -77,16 +65,17 @@ module.exports = (grunt) ->
     #   }
     # }
 
-  grunt.registerTask "default", [
-    # "concat"
+  grunt.registerTask "build", [
     "copy"
     "exec:build"
   ]
 
   grunt.registerTask "serve", [
-    # "concat"
     "copy"
     "exec:serve"
   ]
 
-# grunt.registerTask('deploy', ['githubPages:target']);
+  grunt.registerTask "default", [
+    "serve"
+  ]
+
