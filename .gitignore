@@ -1,6 +1,8 @@
+Gemfile.lock
 _site
 .sass-cache
 /bower_components/
 /node_modules/
 /assets
+/_assets/js/vendor/*
 
