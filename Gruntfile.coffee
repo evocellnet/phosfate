@@ -27,13 +27,13 @@ module.exports = (grunt) ->
           expand:true
           cwd: 'bower_components/bootswatch-dist/'
           src: ['**']
-          dest: 'assets/bootswatch/'
+          dest: 'assets/vendor/bootswatch/'
         },
         {
           expand:true
           cwd: 'bower_components/jquery/dist/'
           src: ['**']
-          dest: 'assets/jquery'
+          dest: 'assets/vendor/jquery'
         },
         {
           expand:true
@@ -45,7 +45,7 @@ module.exports = (grunt) ->
           expand:true
           cwd: 'bower_components/d3'
           src: ['**']
-          dest: 'assets/d3'
+          dest: 'assets/vendor/d3'
         },
         {
           expand:true
