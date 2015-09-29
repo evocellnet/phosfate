@@ -16,5 +16,5 @@ Be sure you have `ruby (Gemfiles)`, `Node.js (npm)` and  `bower` installed befor
 
 Once everything is set...
 
-* `grunt` to build the `_site` folder with the resulting webpage
+* Run `grunt` to build the `_site` folder with the resulting webpage
 * Run `grunt` or `grunt serve` to start an interactive devoloper session
