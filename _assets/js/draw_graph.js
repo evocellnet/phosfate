@@ -43,9 +43,7 @@ var vis = d3.select(NETWORK_WINDOW_TAG)
     .append('svg:g')
     .attr('width', thewidth)
     .attr('height', theheight)
-
-
-var mainGroup = vis.append('svg:g');
+    .append('svg:g');
 
 var rect = vis.append('svg:rect')
     .attr('width', thewidth)
@@ -328,72 +326,78 @@ d3.json(NETWORK_LOCAL_DATA_URI, function(error, graph) {
     }
 
     function mover(d,i) {
-        $(".pop-up").fadeOut(50);
-        if(d.name != previousd){
-            previousd = d.name;
-            $("#pop-up-node").fadeOut(100,function () {
-            // Popup content
-                $("#node-title").html(d.name);
-                if(d.gene_names != "None"){
-                    $("#genenames").html($("<div></div>")
-                                         .append($("<span></span>").addClass("minititle").text("Gene Names: "))
-                                         .append($("<span></span>").html(d.gene_names))
-                                        )
-                }else{
-                    $("#genenames").html('');
-		}
-                if(d.complex != "None"){
-                    $("#complex").html($("<div></div>")
-                                       .append($("<span></span>").addClass("minititle").text("Complex: "))
-                                       .append($("<span></span>").html(d.complex))
-                                      )
-		}else{
-                    $("#complex").html('');
-                }
-                if(d.uniprot != "None"){
-                    $("#uniprot").html($("<div></div>")
-                                       .append($("<span></span>").addClass("minititle").text("Uniprot: "))
-                                       .append($("<span></span>").html($("<a></a>").attr('target', '_blank').attr('href', "http://www.uniprot.org/uniprot/"+d.uniprot).text(d.uniprot)))
-                                      )
-                }else{
-                    $("#uniprot").html('');
-                }
-                if(d.geo.length > 0){
-                    $("#geo").html('');
-                    $("#geo").append($("<span></span>").addClass("minititle").text("GEO ChipSeq: "))
-                    $.each(d.geo, function(i,value){
-                        var span = $("<span></span>").html($("<a></a>")
-                                                           .attr('target', '_blank')
-                                                           .attr('href', "http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc="+value)
-                                                           .text(value)
-                                                          )
-                        $("#geo").append(span)
-                        if(i != (d.geo.length - 1)){
-                            $("#geo").append($("<span>, </span>"))
-                        }
-                    })
-                        }else{
-                            $("#geo").html('');
-			}
-                if(d.ensemblprotein != "None"){
-                    $("#ensembl").html($("<div></div>")
-                                       .append($("<span></span>").addClass("minititle").text("Ensembl: "))
-                                       .append($("<span></span>").html($("<a></a>").attr('target', '_blank').attr('href', "http://www.ensembl.org/Mus_musculus/Transcript/Summary?db=core;t="+d.ensemblprotein).text(d.ensemblprotein)))
-                                      )
-                }else{
-                    $("#ensembl").html('');
-                }
-                //Popup position
-                var popLeft = ((d.x*scale) + trans[0]);//lE.cL[0] + 20;
-                var popTop = ((d.y*scale)+trans[1]);//lE.cL[1] + 70;
-                $("#pop-up-node").css({"left":popLeft,"top":popTop});
-                $("#pop-up-node").fadeIn(100);
-            });
-      }else{
-        previousd = "";
-      }
+        console.log(d.name)
+        createDescriptionDiv(d, "#descriptionTable")
     }
 
+    function createDescriptionDiv(d,parentelement){
+        $(parentelement).html('');
+        var condesc = $('<dl></dl>').addClass('dl-horizontal');
+        
+        //Description
+        var descriptiondt = $('<dt>Condition</dt>');
+        var descriptiondd = $('<dd></dd>');
+        descriptiondd.text(d.description);
+        condesc.append(descriptiondt);
+        condesc.append(descriptiondd);
+
+        //Control
+        var controldt = $('<dt>Control</dt>');
+        var controldd = $('<dd></dd>');
+        if($.inArray(d.control_description, ["Untreated","Control","vehicle"]) < 0){
+            controldd.text(d.control_description);
+            condesc.append(controldt);
+            condesc.append(controldd);
+        }
+
+        //Control
+        var controldt = $('<dt>Time</dt>');
+        var controldd = $('<dd></dd>');
+        if(d.time_min){
+            controldd.text(d.time_min + "min");
+            condesc.append(controldt);
+            condesc.append(controldd);
+        }
+        
+        // Sample
+        var biodt = $('<dt>Sample</dt>');
+        var biodd = $('<dd></dd>');
+        biodd.text(d.biological_sample);
+        condesc.append(biodt);
+        condesc.append(biodd);
+        $(parentelement).append(condesc);
+
+        // Enrichment
+        var enrichdt = $('<dt>Enrichment</dt>');
+        var enrichdd = $('<dd></dd>');
+        enrichdd.text(d.enrichment_method);
+        condesc.append(enrichdt);
+        condesc.append(enrichdd);
+        $(parentelement).append(condesc);
+
+        // Labelling
+        var labdt = $('<dt>Labelling</dt>');
+        var labdd = $('<dd></dd>');
+        labdd.text(d.labelling_method);
+        condesc.append(labdt);
+        condesc.append(labdd);
+        $(parentelement).append(condesc);
+
+        //Journal
+        var pubdt = $('<dt>Publication</dt>');
+        var pubtitledd = $('<dd></dd>');
+        var pubdd = $('<dd></dd>');
+        pubtitledd.text(d.title)
+        var year = new Date(d.publication_date).getFullYear()
+        var link = $('<a></a>').attr("href","http://www.ncbi.nlm.nih.gov/pubmed/?term=" + d.pubmed_id).text(d.fauthor + " et al. (" + year +") " + d.journal)
+        pubdd.append(link)
+        // pubdd.text(d.fauthor + " et al. (" + year +") " + d.journal);
+        condesc.append(pubdt);
+        condesc.append(pubtitledd)
+        condesc.append(pubdd);
+        $(parentelement).append(condesc);
+    }
+    
     function lover(d,i) {
         $(".pop-up").fadeOut(50);
         var thisd = d.source.name + "-" + d.target.name + "-" + d.clu;
