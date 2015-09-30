@@ -70,8 +70,7 @@ var link = vis.selectAll(".link"),
 var groups;
 var group;
 var groupColors = {};
-var groupFill = function(d, i) { console.log(d.key);
-                                 return groupColors[d.key]; };
+var groupFill = function(d, i) { return groupColors[d.key]; };
 var groupPath = function(d) {    
     if(d.values.length > 2){
         return "M" + d3.geom.hull(d.values.map(function(i) { return [i.x, i.y]; })).join("L") + "Z"
