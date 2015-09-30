@@ -16,13 +16,11 @@ var trans=[0,0];
 var scale=1;
 var color = d3.scale.category20();
 var nodecolor = d3.scale.category10();
-var fill = d3.scale.category10();
 var previousd;
 var counter=0;
 var centerx;
 var centery;
-// used to store the number of links between two nodes. 
-// mLinkNum[data.links[i].source + "," + data.links[i].target] = data.links[i].linkindex;
+
 var mLinkNum = {};
 var nodes = {};
 var minLinks={};
@@ -57,23 +55,6 @@ var rect = vis.append('svg:rect')
         // d3.selectAll('[highlighted=true]').attr("highlighted",false);
     });
 
-// build the arrow.
-// var arrow = vis.append("svg:defs").selectAll("marker")
-//     .data(["end"])      // Different link/path types can be defined here
-//     .enter().append("svg:marker")    // This section adds in the arrows
-//     .attr("id", function(d) { return d; })
-//     .attr("viewBox", "0 -5 10 10")
-//     .attr("refX", 20)
-//     // .attr("refY", -1.5)
-//     .attr("markerWidth", 10)
-//     .attr("markerHeight", 7)
-//     .attr("orient", "auto")
-//     .append("svg:path")
-//     .style("stroke", "#BBB")
-//     .style("fill", "#BBB")
-//     .attr("d", "M0,-3L10,0L0,3")
-
-
 var force = d3.layout.force()
     .charge(-2500)
     .size([thewidth, theheight])
@@ -88,9 +69,11 @@ var link = vis.selectAll(".link"),
 
 var groups;
 var group;
-var groupFill = function(d, i) { return fill(i & 3); };
-var groupPath = function(d) {
-    if(d.values.length > 0){
+var groupColors = {};
+var groupFill = function(d, i) { console.log(d.key);
+                                 return groupColors[d.key]; };
+var groupPath = function(d) {    
+    if(d.values.length > 2){
         return "M" + d3.geom.hull(d.values.map(function(i) { return [i.x, i.y]; })).join("L") + "Z"
     }
 };
@@ -101,8 +84,6 @@ function dragstart(d, i) {
 }
   
 function updateWindow(){
-    // thewidth = w.innerWidth || e.clientWidth || g.clientWidth;
-    // theheight = w.innerHeight || e.clientHeight|| g.clientHeight;
     thewidth = $(NETWORK_WINDOW_TAG).width();
     theheight = 0.7440 * thewidth;
     vis.attr("width", thewidth).attr("height", theheight);
@@ -118,40 +99,6 @@ function redraw() {
 }
 
 $(window).on("resize", function() {updateWindow()}).trigger("resize");
-
-// $(".navbar-form").submit(function(e){
-//     e.preventDefault();
-//     focusOnNode($("#srch-term").val());
-// });
-
-// $("#srch-term").keyup(function() {
-//     var val = $.trim(this.value);
-//     searchNodes(val);
-// });
-
-// // constructs the suggestion engine
-// var nodeEngine = new Bloodhound({
-//     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-//     queryTokenizer: Bloodhound.tokenizers.whitespace,
-//     prefetch: {
-//         url: 'data/nodes.json',
-//         filter: function(list) {
-//             return $.map(list, function(node) { return { value: node }; });
-//         }
-//     }
-// });
-
-// // kicks off the loading/processing of `local` and `prefetch`
-// nodeEngine.initialize();
-
-// $.get('data/nodes.json', function(data){
-//     $("#srch-term").typeahead({ source:data });
-// },'json');
-
-// $('#srch-term').on('change', function (e) {
-//     var val = $.trim($('#srch-term').val());
-//     searchNodes(val);
-// })
 
 $('#skipbutton').on('click',function(e){
     $("#loadingCon").fadeOut();
@@ -198,20 +145,16 @@ d3.json(NETWORK_LOCAL_DATA_URI, function(error, graph) {
     //Backup network
     test = graph;
     // sort links first
-    graph.links=sortLinks(graph.links);
-    // set up linkIndex and linkNumer, because it may possible multiple links share the same source and target node
-    var indexAndNum =setLinkIndexAndNum(graph.links);
-    graph.links=indexAndNum[0];
-    mLinkNum = indexAndNum[1];
 
-    // var groups1  = d3.nest().key(function(d) {return(parseInt(d.id) & 3)}).entries(graph.nodes);
-    // groups = d3.nest().key(function(d) {return(parseInt(d.chromenet))}).entries(graph.nodes);
-    groups = [{key:null,values:[]}]
-    // groups = d3.nest().key(function(d) {return(parseInt(d.id) & 3)}).entries(graph.nodes);
-    
+    // Group colors vector
+    for(var i=0;i < graph.nodes.length;i++){
+        groupColors[graph.nodes[i].membership.toString()] = graph.nodes[i].color;
+    }
+    // Group memberships for nodes
+    groups = d3.nest().key(function(d) {return d.membership}).entries(graph.nodes)
     group = vis.selectAll(".area")
-        .attr("d", groupPath)
         .data(groups)
+        .attr("d",groupPath)
         .enter().insert("path", "circle")
         .attr("class", "area")
         .style("fill", groupFill)
@@ -219,7 +162,7 @@ d3.json(NETWORK_LOCAL_DATA_URI, function(error, graph) {
         .style("stroke-width", 40)
         .style("stroke-linejoin", "round")
         .style("opacity", .2)
-
+        .attr("d",groupPath)
     
     //Starting with the graph
     link = link.data(graph.links)
@@ -481,158 +424,6 @@ d3.json(NETWORK_LOCAL_DATA_URI, function(error, graph) {
 
     $('.progress-bar').attr('aria-valuetransitiongoal', 100).progressbar();
 
-    // //Get all the states and fill panel with states
-    // var states = [];
-    // $.each(graph.links, function(i,value){states.push(parseInt(value.clu))});
-    // var statetypes = [];
-    // $.each(graph.links, function(i,value){
-    //     if(value.membership != 0){
-    //         statetypes[value.membership]=value.stateType.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "_")
-    //     }
-    // });
-    // var uniquestates=states.filter(function(itm,i,a){
-    //     return i==a.indexOf(itm);
-    // });
-    // uniquestates = uniquestates.sort(function(a,b){return a-b})
-
-    // var theselect = document.createElement("select");
-    // var firstOption = document.createElement("option")
-    // firstOption.innerHTML = "Select";
-    // firstOption.disabled = true;
-    // firstOption.selected = true;
-    // theselect.appendChild(firstOption);
-    
-    // d3.select("#mainpanel").append("select").on("change", change);
-    // for (var i = 1; i < uniquestates.length; i++) {
-    //     var anOption = document.createElement('option');
-    //     anOption.value = uniquestates[i];
-    //     anOption.innerHTML = "ChromNet " + (parseInt(uniquestates[i]));
-    //     theselect.appendChild(anOption);
-    // }
-
-    // theselect.onchange = function () {
-    //     d3.selectAll(".link").style("stroke","grey");
-    //     d3.selectAll(".link").attr("highlighted",false);
-    //     groups[0]["values"] = [];
-    //     if(typeof(this.value) != "undefined"){
-    //         for(var i = 0; i < graph.nodes.length; i++) {
-    //             for(var cn = 0; cn < graph.nodes[i].chromenet.length; cn++) {
-    //                 if(this.value == parseInt(graph.nodes[i].chromenet[cn])){
-    //                     groups[0]["values"].push(graph.nodes[i]);                        
-    //                 }
-    //             }
-    //         }
-    //         d3.selectAll("."+this.value).style("stroke","#FF0000");
-    //         d3.selectAll("."+this.value).attr("highlighted",true);
-
-    //         // $(".link").each(function( d ) {
-    //         //     console.log(d.clu)
-    //         // });
-    //         force.start()
-    //     }        
-    // };
-
-
-    // function getGroups(value){
-    //     if(typeof(value) != "undefined"){
-    //         groups =[] ;
-    //         // Do whatever you want to do when the select changes
-    //         var g = {};
-    //         g.key = value;
-    //         g.values = [];
-    //         for(var i = 0; i < graph.nodes.length; i++) {
-    //             for(var cn = 0; cn < graph.nodes[i].chromenet.length; cn++) {
-    //                 if(value == parseInt(graph.nodes[i].chromenet[cn])){
-    //                     g.values.push(graph.nodes[i]);
-    //                 }
-    //             }
-    //         }
-    //         groups.push(g);
-    //         // vis.selectAll(".area").remove();            
-    //     }
-    //     return(groups)
-    // }
-    
-    // $("#mainpanel").append(theselect);
-        
-    // console.log(uniquestates)
-    // $.each(uniquestates, function(i,state){
-    //     var elementId = "id"+(state+1);
-    //     var checkboxContainer = $('<div></div>')
-    //         .addClass('checkbox')
-    //         .attr("id", elementId)
-    //     var labelContainer = $('<label></label>').text("ChromNet " + (state+1))
-    //         .prepend($('<input></input>')
-    //                  .prop('type', 'checkbox')
-    //                  .addClass(statetypes[state])
-    //                  .change(
-                         // //Preparing new list of links
-                         // $(".pop-up").fadeOut(50);
-                         // minLinks=[];
-                         // var checkedValues = $('input:checkbox:checked').map(function() {
-                         //     return this.value;
-                         // }).get();
-                         // minLinks=test.links.filter(function(d){
-                         //     if($.inArray(d.state, checkedValues) != -1){
-                         //         return d;
-                         //     }
-                         // });
-                         // minLinks=sortLinksIndex(minLinks);
-                         // // set up linkIndex and linkNumer, because it may possible multiple links share the same source and target node
-                         // mLinkNum=[];
-                         // var indexAndNum =setLinkIndexAndNum(minLinks);
-                         // minLinks=indexAndNum[0];
-                         // mLinkNum = indexAndNum[1];
-                         // force.links(minLinks);
-                         // //link representation
-                         // link = link.data(minLinks)
-                         // link.enter().append("svg:path")
-                         //     .attr("fill", "none")
-                         //     .on("click",lover);
-                         // link.style("stroke", function(d) { return color(parseInt(d.state)) })
-                         // link.attr("class", function(d) {return "link " + d.type;})
-                         // link.exit().remove();
-                         // keepNodesOnTop();
-                         // force.start();
-                         // }
-           //  .prop("checked", false).val(state))
-           // .attr("width","50px")
-           // .attr("height","10px");
-           // checkboxContainer.append(labelContainer);
-           // $("#mainpanel").append(checkboxContainer);
-           // var hashedid = "#"+elementId;
-           // var rectpanel = d3.select(String(hashedid))
-           //     .append("svg")
-           //     .attr("width", 60)
-           //     .attr("height", 8);
-           // rectpanel.append("svg:line")
-           // .attr("x1", 10)
-           // .attr("y1", 1)
-           // .attr("x2", 60)
-           // .attr("y2", 1)
-           // .attr("stroke-width", 5)
-           // .style("stroke", color(parseInt(state)))
-          // })
-
-        //All labels
-        // var elong = $("<h5></h5>").text("Elongation ").insertBefore("#id1")
-            // .append($("<span></span>").addClass("text-primary").text("[All]").on('click', function(){$('input.Elongation').prop('checked', true).trigger('change')}))
-            // .append($("<span></span>").addClass("text-primary").text("[None]").on('click', function(){$('input.Elongation').prop('checked', false).trigger('change')}))
-        // var hetero = $("<h5></h5>").text("Heterochromatin ").insertBefore("#id6")
-            // .append($("<span></span>").addClass("text-primary").text("[All]").on('click', function(){$('input.Heterochromatin').prop('checked', true).trigger('change')}))
-            // .append($("<span></span>").addClass("text-primary").text("[None]").on('click', function(){$('input.Heterochromatin').prop('checked', false).trigger('change')}))
-        // var enhan = $("<h5></h5>").text("Enhancer ").insertBefore("#id11")
-            // .append($("<span></span>").addClass("text-primary").text("[All]").on('click', function(){$('input.Enhancer').prop('checked', true).trigger('change')}))
-            // .append($("<span></span>").addClass("text-primary").text("[None]").on('click', function(){$('input.Enhancer').prop('checked', false).trigger('change')}))
-        // var active = $("<h5></h5>").text("Activation ").insertBefore("#id15")
-            // .append($("<span></span>").addClass("text-primary").text("[All]").on('click', function(){$('input.Activation').prop('checked', true).trigger('change')}))
-            // .append($("<span></span>").addClass("text-primary").text("[None]").on('click', function(){$('input.Activation').prop('checked', false).trigger('change')}))
-        // var repress = $("<h5></h5>").text("Repression ").insertBefore("#id18")
-            // .append($("<span></span>").addClass("text-primary").text("[All]").on('click', function(){$('input.Repression').prop('checked', true).trigger('change')}))
-            // .append($("<span></span>").addClass("text-primary").text("[None]").on('click', function(){$('input.Repression').prop('checked', false).trigger('change')}))
-        // var ctcf = $("<h5></h5>").text("CTCF/insulator ").insertBefore("#id20")
-            // .append($("<span></span>").addClass("text-primary").text("[All]").on('click', function(){$('input.CTCF_Insulator').prop('checked', true).trigger('change')}))
-            // .append($("<span></span>").addClass("text-primary").text("[None]").on('click', function(){$('input.CTCF_Insulator').prop('checked', false).trigger('change')}))
 
     // Use a timeout to allow the rest of the page to load first.
     setTimeout(function() {
@@ -648,84 +439,4 @@ d3.json(NETWORK_LOCAL_DATA_URI, function(error, graph) {
 
     force.start()
     
-        // sort the links by source, then target
-        function sortLinks(links){
-            links.sort(function(a,b) {
-                if (a.source > b.source){
-                    return 1;
-                }else if (a.source < b.source){
-                    return -1;
-                }else{
-                    if (a.target > b.target){
-                        return 1;
-                    }if (a.target < b.target){
-                        return -1;
-                    }else{
-                        return 0;
-                    }
-                }
-            });
-            return(links)
-        }
-
-        // sort the links by source, then target
-        function sortLinksIndex(links){
-            links.sort(function(a,b) {
-                if (a.source.index > b.source.index){
-                    return 1;
-                } else if (a.source.index < b.source.index) {
-                    return -1;
-                }else{
-                    if (a.target.index > b.target.index) {
-                        return 1;
-                    }if (a.target.index < b.target.index) {
-                        return -1;
-                    }
-                    else {
-                        return 0;
-                    }
-                }
-            });
-            return(links)
-        }
-        //any links with duplicate source and target get an incremented 'linknum'
-        function setLinkIndexAndNum(links){
-            for (var i = 0; i < links.length; i++){
-                var source = links[i].source,
-                    target = links[i].target;
-                if(parseInt(source) !== source){
-                    source = links[i].source.index;
-                    target = links[i].target.index;
-                }
-                if (i != 0 && links[i].source == links[i-1].source && links[i].target == links[i-1].target) {
-                    links[i].linkindex = links[i-1].linkindex + 1;
-                }
-                else {
-                    links[i].linkindex = 1;
-                }// save the total number of links between two nodes
-                if(mLinkNum[target + "," + source] !== undefined){
-                    mLinkNum[target + "," + source] = links[i].linkindex;
-                }else{
-                    mLinkNum[source + "," + target] = links[i].linkindex;
-                }
-            }
-            return [links,mLinkNum];
-        }
-});
-
-function keepNodesOnTop() {
-    $(".node").each(function( index ) {
-        var gnode = this.parentNode;
-        gnode.parentNode.appendChild(gnode);
-    });
-}
-
-$('#opener').on('click', function() {
-    var panel = $('#slide-panel');
-    if (panel.hasClass("visible")) {
-        panel.removeClass('visible').animate({'margin-left':'-300px'});
-    } else {
-        panel.addClass('visible').animate({'margin-left':'0px'});
-    }
-    return false;
 });
