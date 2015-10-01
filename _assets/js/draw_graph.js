@@ -1,13 +1,13 @@
 "use strict";
 
-var NETWORK_LOCAL_DATA_URI = 'data/net.json';
-var NETWORK_WINDOW_TAG = "#network-view";
+var NETDATA = 'data/net.json';
+var NETCONTAINER = "#network-view";
 
 var w = window,
     d = document,
     e = d.documentElement,
-    g = NETWORK_WINDOW_TAG,
-    thewidth = $(NETWORK_WINDOW_TAG).width(),
+    g = NETCONTAINER,
+    thewidth = $(NETCONTAINER).width(),
     theheight = 0.75 * thewidth;
 
 var n = 100;
@@ -30,7 +30,7 @@ var zoom = d3.behavior.zoom()
     .scaleExtent([0.5, 10])
     .on("zoom", redraw);
 
-var vis = d3.select(NETWORK_WINDOW_TAG)
+var vis = d3.select(NETCONTAINER)
     .append("svg")
     .attr("id", "playgraph")
     .attr("viewBox", "0 0 " + thewidth + " " + theheight)
@@ -79,11 +79,10 @@ var groupPath = function(d) {
 
 function dragstart(d, i) {
     $(".pop-up").fadeOut(50);
-    console.log(d.id)
 }
   
-function updateWindow(){
-    thewidth = $(NETWORK_WINDOW_TAG).width();
+function updateNetWindow(){
+    thewidth = $(NETCONTAINER).width();
     theheight = 0.7440 * thewidth;
     vis.attr("width", thewidth).attr("height", theheight);
     rect.attr("width", thewidth).attr("height", theheight);
@@ -96,8 +95,6 @@ function redraw() {
     scale=d3.event.scale;
     vis.attr("transform","translate(" + [thewidth/2 + trans[0] - centerx, theheight/2 + trans[1] - centery] + ")"+" scale(" + scale + ")");
 }
-
-$(window).on("resize", function() {updateWindow()}).trigger("resize");
 
 $('#skipbutton').on('click',function(e){
     $("#loadingCon").fadeOut();
@@ -140,7 +137,7 @@ function focusOnNode(nodeName){
 }
 
 
-d3.json(NETWORK_LOCAL_DATA_URI, function(error, graph) {
+d3.json(NETDATA, function(error, graph) {
     //Backup network
     test = graph;
     // sort links first
@@ -268,8 +265,9 @@ d3.json(NETWORK_LOCAL_DATA_URI, function(error, graph) {
     }
 
     function mover(d,i) {
-        console.log(d.name)
-        createDescriptionDiv(d, "#descriptionTable")
+        createDescriptionDiv(d, "#descriptionTable");
+        $(ACTCONTAINER).html("");
+        createBarchart(ACTDATA, ACTCONTAINER, d.name);
     }
 
     function createDescriptionDiv(d,parentelement){

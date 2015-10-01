@@ -3,3 +3,6 @@
 #= require vendor/bootstrap-progressbar
 #= require vendor/d3
 #= require draw_graph
+#= require draw_barchart
+#= require responsive
+
