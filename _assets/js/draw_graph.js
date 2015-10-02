@@ -331,8 +331,7 @@ d3.json(NETDATA, function(error, graph) {
 
     function mover(d,i) {
         createDescriptionDiv(d, "#descriptionTable");
-        $(ACTCONTAINER).html("");
-        createBarchart(ACTDATA, ACTCONTAINER, d.name);
+        updateData(d.name);
     }
 
     function createDescriptionDiv(d,parentelement){
