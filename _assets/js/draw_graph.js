@@ -25,6 +25,87 @@ var mLinkNum = {};
 var nodes = {};
 var minLinks={};
 
+
+// Node Colors
+var colours = ["#67001F", "#B2182B", "#D6604D","#F4A582",
+               "#FDDBC7", "#FFFFFF", "#D1E5F0", "#92C5DE",
+               "#4393C3", "#2166AC", "#053061"];
+var heatmapColour = d3.scale.linear()
+    .domain(d3.range(-3, 3, 6 / (colours.length - 1)))
+    .range(colours);
+
+
+// Select for kinases
+var theselect = document.createElement("select");
+theselect.className = theselect.className + "form-control";
+var firstOption = document.createElement("option")
+firstOption.innerHTML = "Select Kinase";
+firstOption.disabled = true;
+firstOption.selected = true;
+theselect.appendChild(firstOption);
+
+// Create dropdown menu
+d3.csv("data/activities.csv", function(d){ return d.kinase },
+       function(data){
+           data.forEach(function(k){
+               var anOption = document.createElement('option');
+               anOption.value = k;
+               anOption.innerHTML = k;
+               theselect.appendChild(anOption);
+           })
+       });
+
+$("#selectbox").append(theselect);
+
+theselect.onchange = function () {
+    console.log(this.value)
+    var c;
+    d3.csv("data/activities.csv")
+        .row(function(d) { if(d.kinase == theselect.value) {return d }})
+        .get(function(error, data) {
+            data = data[0];
+            var newdata = {};
+            for (var d in data) {
+                if(d != "kinase"){
+                    if (data.hasOwnProperty(d)) {              
+                        if(data[d] == "NA"){
+                            newdata[d] = 0;
+                        }else{
+                            newdata[d] = +data[d];
+                        }
+                        
+                    }
+                }                
+            }    
+            // // dynamic bit...
+            var c = d3.scale.linear()
+                .domain([-3,0,3])
+                .range(["red","white","blue"]);
+            d3.selectAll(".node").style("stroke", function(d) { return d3.rgb(heatmapColour(newdata["cond_"+d.name])).darker() });
+            d3.selectAll(".node").style("fill", function(d) { return d3.rgb(heatmapColour(newdata["cond_"+d.name])) });
+        });
+
+
+    // groups[0]["values"] = [];
+    // if(typeof(this.value) != "undefined"){
+    //     for(var i = 0; i < graph.nodes.length; i++) {
+    //         for(var cn = 0; cn < graph.nodes[i].chromenet.length; cn++) {
+    //             if(this.value == parseInt(graph.nodes[i].chromenet[cn])){
+    //                 groups[0]["values"].push(graph.nodes[i]);                        
+    //             }
+    //         }
+    //     }
+    //     d3.selectAll("."+this.value).style("stroke","#FF0000");
+    //     d3.selectAll("."+this.value).attr("highlighted",true);
+
+    //     // $(".link").each(function( d ) {
+    //     //     console.log(d.clu)
+    //     // });
+    //     force.start()
+    // }        
+};
+
+
 var test;
 var zoom = d3.behavior.zoom()
     .scaleExtent([0.5, 10])
@@ -54,6 +135,7 @@ var rect = vis.append('svg:rect')
         // d3.selectAll('[highlighted=true]').style("stroke", function(d) { return d3.rgb(d.color).darker(); });
         // d3.selectAll('[highlighted=true]').attr("highlighted",false);
     });
+
 
 var force = d3.layout.force()
     .charge(-2500)
