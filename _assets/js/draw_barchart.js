@@ -51,21 +51,13 @@ function createBarchart(datapath, parentElement, condition){
         x.domain(d3.extent(data, function(d) { return d.activity; })).nice();
         y.domain(data.map(function(d) { return d.kinase; }));
 
-        // var bar = svg.selectAll(".bar")
-        //     .data(data)
-        //     .enter().append("rect")
-        //     .attr("class", function(d) { return d.activity < 0 ? "bar negative" : "bar positive"; })
-        //     .attr("x", function(d) { return x(Math.min(0, d.activity)); })
-        //     .attr("y", function(d) { return y(d.kinase); })
-        //     .attr("width", function(d) { return Math.abs(x(d.activity) - x(0)); })
-        //     .attr("height", y.rangeBand());
-
         var bar = svg.selectAll(".bar")
             .data(data)
             .enter().append("g")
             .attr("class", function(d) { return d.activity < 0 ? "bar negative" : "bar positive"; })
             .attr("x", function(d) { x(Math.min(0, d.activity)) })
-            .attr("transform", function(d, i) { return "translate("+x(Math.min(0, d.activity))+"," + y(d.kinase) + ")"; });
+            .attr("transform", function(d, i) { return "translate("+x(Math.min(0, d.activity))+"," + y(d.kinase) + ")"; })
+            .on("click", barClick);
 
         bar.append("rect")
             .attr("height", y.rangeBand())
@@ -101,6 +93,10 @@ function createBarchart(datapath, parentElement, condition){
             d3.select("input").property("checked", true).each(change);
         }, 2000);
 
+        function barClick(d, i){
+            $("#kinaseselector").val(d.kinase).change();            
+        }
+        
         function change() {
             clearTimeout(sortTimeout);
 

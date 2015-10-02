@@ -9,6 +9,10 @@
   shape-rendering: crispEdges;
 }
 
+.bar{
+    cursor:pointer;
+}
+
 .bar.positive {
   fill: steelblue;
 }
