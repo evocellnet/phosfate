@@ -1,71 +1,35 @@
 .node {
   stroke: #fff;
   stroke-width: 1.5px;
-  cursor:pointer;
+}
+
+.gnode{
+    cursor:pointer;
 }
 
 .link {
   stroke: #999;
   stroke-opacity: .6;
 }
+
 body,html{
   height:100%;
   width:100%;
 }
+
 .cntainr{
 	height:100%;
 	width:100%;
 	display:table;
 }
+
 .node.highlighted {
   fill: #f00;
-}
-
-div.pop-up {
-	display: none;
-	position:absolute;
-	color: white;
-	font-size: 14px;
-	background: rgba(0,0,0,0.5);
-	padding: 5px 10px 5px 10px;
-	-moz-border-radius: 8px 8px;
-	border-radius: 8px 8px;
-}
-div.pop-up-title {
-	font-size: 15px;
-	width:200px;
-	margin-bottom: 4px;
-	font-weight: bolder;
-}
-div.pop-up-content {
-	font-size: 12px;
-}
-.minititle{
-	font-weight: bolder;
-}
-div.pop-img {
-	font-size: 12px;
-}
-div.pop-desc {
-	width: 150px;
-}
-.pop-up-content a{
-	color: white;
 }
 
 label{
 	font-size: 12px;
 }
-
-div.checkbox{
-  margin-bottom: 6px;
-}
-
-span.text-primary{
-  font-size: 10px;
-  cursor: pointer;
-}
-
 
 #mainpanel {
     padding: 15px;
@@ -76,28 +40,4 @@ span.text-primary{
     border: 1px solid #a6a6a6;
     position:fixed;
     right:0px;
-}
-
-.link.negative {
-  stroke-dasharray: 6,5;
-}
-
-#slide-panel {
-    width:300px;
-    padding:10px;
-    margin-left:-300px;
-    background-color: rgba(255, 255, 255, .8);
-    z-index: 20;
-    position:fixed;
-    border: 1px solid #a6a6a6;
-    
-}
-#opener {
-    float:right;
-    margin:-6px -57px 0px 0px;
-    border-radius:0;
-}
-
-.jumbotron p{
-	font-size: 16px;
 }
