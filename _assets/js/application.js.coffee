@@ -4,5 +4,6 @@
 #= require vendor/d3
 #= require draw_graph
 #= require draw_barchart
+#= require draw_complexes
 #= require responsive
 
