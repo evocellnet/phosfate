@@ -38,6 +38,7 @@ var heatmapColour = d3.scale.linear()
 // Select for kinases
 var theselect = document.createElement("select");
 theselect.className = theselect.className + "form-control";
+theselect.id = "kinaseselector"
 var firstOption = document.createElement("option")
 firstOption.innerHTML = "Select Kinase";
 firstOption.disabled = true;
@@ -85,24 +86,6 @@ theselect.onchange = function () {
             d3.selectAll(".node").style("fill", function(d) { return d3.rgb(heatmapColour(newdata["cond_"+d.name])) });
         });
 
-
-    // groups[0]["values"] = [];
-    // if(typeof(this.value) != "undefined"){
-    //     for(var i = 0; i < graph.nodes.length; i++) {
-    //         for(var cn = 0; cn < graph.nodes[i].chromenet.length; cn++) {
-    //             if(this.value == parseInt(graph.nodes[i].chromenet[cn])){
-    //                 groups[0]["values"].push(graph.nodes[i]);                        
-    //             }
-    //         }
-    //     }
-    //     d3.selectAll("."+this.value).style("stroke","#FF0000");
-    //     d3.selectAll("."+this.value).attr("highlighted",true);
-
-    //     // $(".link").each(function( d ) {
-    //     //     console.log(d.clu)
-    //     // });
-    //     force.start()
-    // }        
 };
 
 
