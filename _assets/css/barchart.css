@@ -9,6 +9,14 @@
   shape-rendering: crispEdges;
 }
 
+.halfaxis line{
+  fill: none;
+  stroke: #d3d3d3;
+  stroke-dasharray: 6,4; 
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
 .bar{
     cursor:pointer;
 }

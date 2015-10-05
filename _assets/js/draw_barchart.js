@@ -27,6 +27,7 @@ var xAxis = d3.svg.axis()
     .scale(x)
     .orient("top");
 
+
 d3.csv(ACTDATA, function(error, data) {
     var data = $.map(data, function (d){return {"kinase":d.kinase,"activity":d["cond_" + condition]};});
 
@@ -42,6 +43,7 @@ d3.csv(ACTDATA, function(error, data) {
         }
     });
 
+    data = data.sort(function(a,b) {return b.activity - a.activity});
 
     x.domain(d3.extent(data, function(d) { return d.activity; })).nice();
     y.domain(data.map(function(d) { return d.kinase; }));
@@ -66,17 +68,6 @@ d3.csv(ACTDATA, function(error, data) {
         .attr("dy", ".35em")
         .style("font-size", function(d) { return y.rangeBand() + "px"; })
         .text(function(d, i) { return d.kinase });
-
-    var y0 = y.domain(data.sort( function(a, b) { return b.activity - a.activity })
-                      .map(function(d) { return d.kinase; }))
-        .copy();
-    
-    svg.selectAll(".bar").sort(function(a, b) { return y0(a.kinase) - y0(b.kinase); });
-
-    bar.transition()
-        .delay(function(d, i) { return i * 10; })
-        .duration(200)
-        .attr("transform", function(d, i) { return "translate("+x(Math.min(0, d.activity))+"," +  y0(d.kinase) + ")"; });
     
     svg.append("g")
         .attr("class", "x axis")
@@ -93,13 +84,12 @@ d3.csv(ACTDATA, function(error, data) {
         .append("line")
         .attr("x1", x(0))
         .attr("x2", x(0))
-        .attr("y2", height);
-  
+        .attr("y2", height);  
 });    
 
 
 // ** Update data section (Called from the onclick)
-function updateData(condition) {
+function updateKinaseData(condition) {
 
     // Get the data again
     d3.csv(ACTDATA, function(error, data) {
@@ -114,6 +104,9 @@ function updateData(condition) {
                 d.activity = +d.activity;
             }
         });
+
+        data = data.sort(function(a,b) {return b.activity - a.activity});
+
         // Scale the range of the data again 
         x.domain(d3.extent(data, function(d) { return d.activity; })).nice();
         y.domain(data.map(function(d) { return d.kinase; }));
@@ -129,6 +122,9 @@ function updateData(condition) {
             .transition()
             .duration(500)
 
+        svg.selectAll(".barlabels").remove()
+            .transition()
+            .duration(500)
         
         var bar = svg.selectAll(".bar")
             .data(data)
@@ -138,16 +134,16 @@ function updateData(condition) {
             .attr("transform", function(d, i) { return "translate("+x(Math.min(0, d.activity))+"," + y(d.kinase) + ")"; })
             .on("click", barClick);
 
-        var y0 = y.domain(data.sort( function(a, b) { return b.activity - a.activity })
-                          .map(function(d) { return d.kinase; }))
-            .copy();
+        // var y0 = y.domain(data.sort( function(a, b) { return b.activity - a.activity })
+        //                   .map(function(d) { return d.kinase; }))
+        //     .copy();
         
-        svg.selectAll(".bar").sort(function(a, b) { return y0(a.kinase) - y0(b.kinase); });
+        // svg.selectAll(".bar").sort(function(a, b) { return y0(a.kinase) - y0(b.kinase); });
 
-        bar.transition()
-            .delay(function(d, i) { return i * 10; })
-            .duration(200)
-            .attr("transform", function(d, i) { return "translate("+x(Math.min(0, d.activity))+"," +  y0(d.kinase) + ")"; });
+        // bar.transition()
+        //     .delay(function(d, i) { return i * 10; })
+        //     .duration(200)
+        //     .attr("transform", function(d, i) { return "translate("+x(Math.min(0, d.activity))+"," +  y0(d.kinase) + ")"; });
 
         bar.append("rect")
             .attr("height", y.rangeBand())
@@ -168,11 +164,10 @@ function updateData(condition) {
             .attr("x1", x(0))
             .attr("x2", x(0))
             .attr("y2", height);
-        
+
         chart.select(".x.axis") // change the x axis
             .duration(500)
             .call(xAxis);
-
     });
 }
 
