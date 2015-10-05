@@ -30,7 +30,7 @@ var xcplxAxis = d3.svg.axis()
     .orient("top");
 
 d3.csv(CPLXDATA, function(error, data) {
-    var data = $.map(data, function (d){return {"complex":d.complex,"activity":d["cond_" + condition]};});
+    var data = $.map(data, function (d){return {"complex":d.complex,"activity":d["cond_" + condition],"corum_id":d.id};});
     
     data = $.grep(data, function(d) {
         return d.activity != "NA";
@@ -54,8 +54,8 @@ d3.csv(CPLXDATA, function(error, data) {
         .enter().append("g")
         .attr("class", function(d) { return d.activity < 0 ? "bar negative" : "bar positive"; })
         .attr("x", function(d) { xcplx(Math.min(0, d.activity)) })
-        .attr("transform", function(d, i) { return "translate("+xcplx(Math.min(0, d.activity))+"," + ycplx(d.complex) + ")"; });
-        // .on("click", barClick);
+        .attr("transform", function(d, i) { return "translate("+xcplx(Math.min(0, d.activity))+"," + ycplx(d.complex) + ")"; })
+        .on("click", cplxClick)
 
     var rect = bar.append("rect")
         .attr("height", ycplx.rangeBand())
@@ -101,7 +101,7 @@ function updateCplxData(condition) {
 
     // Get the data again
     d3.csv(CPLXDATA, function(error, data) {
-        var data = $.map(data, function (d){return {"complex":d.complex,"activity":d["cond_" + condition]};});
+        var data = $.map(data, function (d){return {"complex":d.complex,"activity":d["cond_" + condition],"corum_id":d.id};});
         data = $.grep(data, function(d) {
             return d.activity != "NA";
         });
@@ -142,7 +142,7 @@ function updateCplxData(condition) {
             .attr("class", function(d) { return d.activity < 0 ? "bar negative" : "bar positive"; })
             .attr("x", function(d) { xcplx(Math.min(0, d.activity)) })
             .attr("transform", function(d, i) { return "translate("+xcplx(Math.min(0, d.activity))+"," + ycplx(d.complex) + ")"; });
-        // .on("click", barClick);
+            .on("click", cplxClick)
 
         var rect = bar.append("rect")
             .attr("height", ycplx.rangeBand())
@@ -171,7 +171,10 @@ function updateCplxData(condition) {
     });
 }
 
-
+function cplxClick(d){
+    var url = "http://mips.helmholtz-muenchen.de/genre/proj/corum/complexdetails.html?id="
+    window.open(url + d.corum_id,'_blank');
+}
 // function updateBarChartWindow(){
 //     thewidth = $(ACTCONTAINER).width();
 //     theheight = thewidth * 1.2;
