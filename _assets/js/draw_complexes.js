@@ -28,8 +28,6 @@ var ycplx = d3.scale.ordinal()
 var xcplxAxis = d3.svg.axis()
     .scale(xcplx)
     .orient("top");
-var test;
-
 
 d3.csv(CPLXDATA, function(error, data) {
     var data = $.map(data, function (d){return {"complex":d.complex,"activity":d["cond_" + condition]};});
@@ -48,7 +46,6 @@ d3.csv(CPLXDATA, function(error, data) {
 
     data = data.sort(function(a,b) {return b.activity - a.activity});
     data = data.slice(1,(showncomplexes/2)).concat(data.slice(data.length - (showncomplexes/2) , data.length))
-    test = data
     xcplx.domain(d3.extent(data, function(d) { return d.activity; })).nice();
     ycplx.domain(data.map(function(d) { return d.complex; }));
 

@@ -332,7 +332,8 @@ d3.json(NETDATA, function(error, graph) {
     function mover(d,i) {
         createDescriptionDiv(d, "#descriptionTable");
         updateKinaseData(d.name);
-        updateCplxData(d.name)
+        updateCplxData(d.name);
+        updateSimData(d.name);
     }
 
     function createDescriptionDiv(d,parentelement){
