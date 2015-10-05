@@ -1,5 +1,5 @@
 {
-  "name": "qpho",
+  "name": "PhosFate",
   "version": "1.0.0",
   "description": "Page under development",
   "main": "_site/index.html",
@@ -13,7 +13,7 @@
   "author": "David Ochoa",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dogcaesar/qpho/issues"
+    "url": "https://github.com/dogcaesar/PhosFate/issues"
   },
   "homepage": "https://github.com/dogcaesar/qpho#readme",
   "devDependencies": {
