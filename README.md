@@ -1,6 +1,6 @@
-# qpho
+# phosFate
 
-Repository under development - More news soon
+Under development - More news soon
 
 ## For developers
 
