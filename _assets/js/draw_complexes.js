@@ -141,7 +141,7 @@ function updateCplxData(condition) {
             .enter().append("g")
             .attr("class", function(d) { return d.activity < 0 ? "bar negative" : "bar positive"; })
             .attr("x", function(d) { xcplx(Math.min(0, d.activity)) })
-            .attr("transform", function(d, i) { return "translate("+xcplx(Math.min(0, d.activity))+"," + ycplx(d.complex) + ")"; });
+            .attr("transform", function(d, i) { return "translate("+xcplx(Math.min(0, d.activity))+"," + ycplx(d.complex) + ")"; })
             .on("click", cplxClick)
 
         var rect = bar.append("rect")
