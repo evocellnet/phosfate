@@ -8,7 +8,7 @@ var margin = {top: 60, right: 10, bottom: 10, left: 30},
     width = $(ACTCONTAINER).width() - margin.left - margin.right,
     height = width * 1.2;
 
-var svg = d3.select(ACTCONTAINER).append("svg")
+var kinsvg = d3.select(ACTCONTAINER).append("svg")
 // .attr('viewBox','0 0 '+Math.min(width,height)+' '+Math.min(width,height))
 // .attr('preserveAspectRatio','xMinYMin')
     .attr("width", width + margin.left + margin.right)
@@ -48,7 +48,7 @@ d3.csv(ACTDATA, function(error, data) {
     x.domain(d3.extent(data, function(d) { return d.activity; })).nice();
     y.domain(data.map(function(d) { return d.kinase; }));
 
-    var bar = svg.selectAll(".bar")
+    var bar = kinsvg.selectAll(".bar")
         .data(data)
         .enter().append("g")
         .attr("class", function(d) { return d.activity < 0 ? "bar negative" : "bar positive"; })
@@ -69,7 +69,7 @@ d3.csv(ACTDATA, function(error, data) {
         .style("font-size", function(d) { return y.rangeBand() + "px"; })
         .text(function(d, i) { return d.kinase });
     
-    svg.append("g")
+    kinsvg.append("g")
         .attr("class", "x axis")
         .append("text")
         .attr("class", "x label")
@@ -78,7 +78,7 @@ d3.csv(ACTDATA, function(error, data) {
         .attr("y", -30)
         .text("Kinase Activities");
 
-    svg.append("g")
+    kinsvg.append("g")
         .attr("class", "y axis")
     // .call(yAxis)
         .append("line")
@@ -114,19 +114,19 @@ function updateKinaseData(condition) {
         // Select the section we want to apply our changes to
         var chart = d3.select(ACTCONTAINER).transition();
         
-        svg.selectAll(".y.axis").remove()
+        kinsvg.selectAll(".y.axis").remove()
             .transition()
             .duration(500)
 
-        svg.selectAll(".bar").remove()
+        kinsvg.selectAll(".bar").remove()
             .transition()
             .duration(500)
 
-        svg.selectAll(".barlabels").remove()
+        kinsvg.selectAll(".barlabels").remove()
             .transition()
             .duration(500)
         
-        var bar = svg.selectAll(".bar")
+        var bar = kinsvg.selectAll(".bar")
             .data(data)
             .enter().append("g")
             .attr("class", function(d) { return d.activity < 0 ? "bar negative" : "bar positive"; })
@@ -158,7 +158,7 @@ function updateKinaseData(condition) {
             .style("font-size", function(d) { return y.rangeBand() + "px"; })
             .text(function(d, i) { return d.kinase });
 
-        svg.append("g")
+        kinsvg.append("g")
             .attr("class", "y axis")
             .append("line")
             .attr("x1", x(0))
