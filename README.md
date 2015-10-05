@@ -1,4 +1,4 @@
-# phosFate
+# PhosFate
 
 Under development - More news soon
 
