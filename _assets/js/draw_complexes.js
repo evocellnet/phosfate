@@ -3,12 +3,8 @@
 var CPLXDATA = 'data/complexes.csv';
 var CPLXCONTAINER = "#complexes-barchart-view"
 var condition = "1_1";
-var showncomplexes = 70;
-
-
-var margin = {top: 60, right: 10, bottom: 10, left: 30},
-    width = $(CPLXCONTAINER).width() - margin.left - margin.right,
-    height = width * 1.2;
+var showncomplexes = 50;
+var aspectRatio = 1.5;
 
 var cplxsvg = d3.select(CPLXCONTAINER).append("svg")
 // .attr('viewBox','0 0 '+Math.min(width,height)+' '+Math.min(width,height))
@@ -78,13 +74,13 @@ d3.csv(CPLXDATA, function(error, data) {
         .attr("x", width/2)
         .attr("y", -30)
         .text("Complex Regulation");
-    cplxsvg.append("g")
-        .attr("class", "y axis")
-    // .call(yAxis)
-        .append("line")
-        .attr("x1", xcplx(0))
-        .attr("x2", xcplx(0))
-        .attr("y2", height);
+    // cplxsvg.append("g")
+    //     .attr("class", "y axis")
+    // // .call(yAxis)
+    //     .append("line")
+    //     .attr("x1", xcplx(0))
+    //     .attr("x2", xcplx(0))
+    //     .attr("y2", height);
     cplxsvg.append("g")
         .attr("class","halfaxis")
         .append("line")

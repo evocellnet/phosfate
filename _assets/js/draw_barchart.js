@@ -3,10 +3,11 @@
 var ACTDATA = 'data/activities.csv';
 var ACTCONTAINER = "#activities-barchart-view"
 var condition = "1_1";
+var aspectRatio = 2;
 
-var margin = {top: 60, right: 10, bottom: 10, left: 30},
+var margin = {top: 60, right: 50, bottom: 10, left: 50},
     width = $(ACTCONTAINER).width() - margin.left - margin.right,
-    height = width * 1.2;
+    height = width * aspectRatio;
 
 var kinsvg = d3.select(ACTCONTAINER).append("svg")
 // .attr('viewBox','0 0 '+Math.min(width,height)+' '+Math.min(width,height))
@@ -78,19 +79,18 @@ d3.csv(ACTDATA, function(error, data) {
         .attr("y", -30)
         .text("Kinase Activities");
 
-    kinsvg.append("g")
-        .attr("class", "y axis")
-    // .call(yAxis)
-        .append("line")
-        .attr("x1", x(0))
-        .attr("x2", x(0))
-        .attr("y2", height);  
+    // kinsvg.append("g")
+    //     .attr("class", "y axis")
+    // // .call(yAxis)
+    //     .append("line")
+    //     .attr("x1", x(0))
+    //     .attr("x2", x(0))
+    //     .attr("y2", height);  
 });    
 
 
 // ** Update data section (Called from the onclick)
-function updateKinaseData(condition) {
-
+function updateKinaseData(condition) {    
     // Get the data again
     d3.csv(ACTDATA, function(error, data) {
         var data = $.map(data, function (d){return {"kinase":d.kinase,"activity":d["cond_" + condition]};});
@@ -113,7 +113,6 @@ function updateKinaseData(condition) {
 
         // Select the section we want to apply our changes to
         var chart = d3.select(ACTCONTAINER).transition();
-        
         kinsvg.selectAll(".y.axis").remove()
             .transition()
             .duration(500)
@@ -178,7 +177,7 @@ function barClick(d, i){
 
 function updateBarChartWindow(){
     thewidth = $(ACTCONTAINER).width();
-    theheight = thewidth * 1.2;
+    theheight = thewidth * aspectRatio;
     $("#chartsvg").attr("width", thewidth + margin.left + margin.right)
         .attr("height", theheight + margin.top + margin.bottom);
     // Check this to make it responsive in the future

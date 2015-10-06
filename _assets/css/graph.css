@@ -17,11 +17,11 @@ body,html{
   width:100%;
 }
 
-.cntainr{
-	height:100%;
-	width:100%;
-	display:table;
-}
+/* .cntainr{ */
+/* 	height:100%; */
+/* 	width:100%; */
+/* 	display:table; */
+/* } */
 
 .node.highlighted {
   fill: #f00;
@@ -31,10 +31,10 @@ label{
 	font-size: 12px;
 }
 
-#network-view{
-    height:100%;
-    width:100%;
-}
+/* #network-view{ */
+/*     height:100%; */
+/*     width:100%; */
+/* } */
 
 #mainpanel {
     padding: 15px;

@@ -4,12 +4,8 @@ var SIMDATA = 'data/correlations.csv';
 var SIMCONTAINER = "#similar-barchart-view"
 var CONDDESCRIPTIONDATA ="data/conddescription.csv"
 var condition = "1_1";
-var showncondition = 70;
-
-
-var margin = {top: 60, right: 10, bottom: 10, left: 30},
-    width = $(SIMCONTAINER).width() - margin.left - margin.right,
-    height = width * 1.2;
+var showncondition = 50;
+var aspectRatio = 1.5;
 
 var simsvg = d3.select(SIMCONTAINER).append("svg")
 // .attr('viewBox','0 0 '+Math.min(width,height)+' '+Math.min(width,height))
@@ -57,8 +53,8 @@ d3.csv(SIMDATA, function(error, data) {
         .enter().append("g")
         .attr("class", function(d) { return d.activity < 0 ? "bar negative" : "bar positive"; })
         .attr("x", function(d) { xsim(Math.min(0, d.activity)) })
-        .attr("transform", function(d, i) { return "translate("+xsim(Math.min(0, d.activity))+"," + ysim(d.condition) + ")"; });
-        // .on("click", barClick);
+        .attr("transform", function(d, i) { return "translate("+xsim(Math.min(0, d.activity))+"," + ysim(d.condition) + ")"; })
+        .on("click", similarClick);
 
     var rect = bar.append("rect")
         .attr("height", ysim.rangeBand())
@@ -81,13 +77,13 @@ d3.csv(SIMDATA, function(error, data) {
         .attr("x", width/2)
         .attr("y", -30)
         .text("Correlated Conditions");
-    simsvg.append("g")
-        .attr("class", "y axis")
-    // .call(yAxis)
-        .append("line")
-        .attr("x1", xsim(0))
-        .attr("x2", xsim(0))
-        .attr("y2", height);
+    // simsvg.append("g")
+    //     .attr("class", "y axis")
+    // // .call(yAxis)
+    //     .append("line")
+    //     .attr("x1", xsim(0))
+    //     .attr("x2", xsim(0))
+    //     .attr("y2", height);
     simsvg.append("g")
         .attr("class","halfaxis")
         .append("line")
@@ -101,7 +97,6 @@ d3.csv(SIMDATA, function(error, data) {
 
 // ** Update data section (Called from the onclick)
 function updateSimData(condition) {
-
     // Get the data again
     d3.csv(SIMDATA, function(error, data) {
         var data = $.map(data, function (d){return {"condition":d.condition,"activity":d["cond_" + condition], "label":d.label};});
@@ -144,8 +139,8 @@ function updateSimData(condition) {
             .enter().append("g")
             .attr("class", function(d) { return d.activity < 0 ? "bar negative" : "bar positive"; })
             .attr("x", function(d) { xsim(Math.min(0, d.activity)) })
-            .attr("transform", function(d, i) { return "translate("+xsim(Math.min(0, d.activity))+"," + ysim(d.condition) + ")"; });
-        // .on("click", barClick);
+            .attr("transform", function(d, i) { return "translate("+xsim(Math.min(0, d.activity))+"," + ysim(d.condition) + ")"; })
+            .on("click", similarClick);
 
         var rect = bar.append("rect")
             .attr("height", ysim.rangeBand())
@@ -172,6 +167,14 @@ function updateSimData(condition) {
             .call(xsimAxis);
 
     });
+}
+
+function similarClick(d){
+    console.log(d.condition)
+    createDescriptionDiv(d, "#descriptionTable");
+    updateKinaseData(d.condition);
+    updateCplxData(d.condition);
+    updateSimData(d.condition);
 }
 
 

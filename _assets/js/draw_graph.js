@@ -287,7 +287,7 @@ d3.json(NETDATA, function(error, graph) {
     var xArray = force.nodes().map(function(d) {return d.x})
     var minX = d3.min(xArray)-(r*2);
     var maxX = d3.max(xArray)+(r*2);
-    var scaleMin = Math.abs(thewidth / (maxX - minX));
+    var scaleMin = Math.abs($(NETCONTAINER).width() / (maxX - minX));
     var startX = Math.abs(minX) * scaleMin;
     var startY = Math.abs(minY) * scaleMin;
     vis.attr("transform", "translate(" + [startX, startY] + ")scale(" + scaleMin + ")");
@@ -330,78 +330,12 @@ d3.json(NETDATA, function(error, graph) {
     }
 
     function mover(d,i) {
+        $(".well").remove();
         createDescriptionDiv(d, "#descriptionTable");
         updateKinaseData(d.name);
         updateCplxData(d.name);
         updateSimData(d.name);
-    }
-
-    function createDescriptionDiv(d,parentelement){
-        $(parentelement).html('');
-        var condesc = $('<dl></dl>').addClass('dl-horizontal');
-        
-        //Description
-        var descriptiondt = $('<dt>Condition</dt>');
-        var descriptiondd = $('<dd></dd>');
-        descriptiondd.text(d.description);
-        condesc.append(descriptiondt);
-        condesc.append(descriptiondd);
-
-        //Control
-        var controldt = $('<dt>Control</dt>');
-        var controldd = $('<dd></dd>');
-        if($.inArray(d.control_description, ["Untreated","Control","vehicle"]) < 0){
-            controldd.text(d.control_description);
-            condesc.append(controldt);
-            condesc.append(controldd);
-        }
-
-        //Control
-        var controldt = $('<dt>Time</dt>');
-        var controldd = $('<dd></dd>');
-        if(d.time_min){
-            controldd.text(d.time_min + "min");
-            condesc.append(controldt);
-            condesc.append(controldd);
-        }
-        
-        // Sample
-        var biodt = $('<dt>Sample</dt>');
-        var biodd = $('<dd></dd>');
-        biodd.text(d.biological_sample);
-        condesc.append(biodt);
-        condesc.append(biodd);
-        $(parentelement).append(condesc);
-
-        // Enrichment
-        var enrichdt = $('<dt>Enrichment</dt>');
-        var enrichdd = $('<dd></dd>');
-        enrichdd.text(d.enrichment_method);
-        condesc.append(enrichdt);
-        condesc.append(enrichdd);
-        $(parentelement).append(condesc);
-
-        // Labelling
-        var labdt = $('<dt>Labelling</dt>');
-        var labdd = $('<dd></dd>');
-        labdd.text(d.labelling_method);
-        condesc.append(labdt);
-        condesc.append(labdd);
-        $(parentelement).append(condesc);
-
-        //Journal
-        var pubdt = $('<dt>Publication</dt>');
-        var pubtitledd = $('<dd></dd>');
-        var pubdd = $('<dd></dd>');
-        pubtitledd.text(d.title)
-        var year = new Date(d.publication_date).getFullYear()
-        var link = $('<a></a>').attr("href","http://www.ncbi.nlm.nih.gov/pubmed/?term=" + d.pubmed_id).text(d.fauthor + " et al. (" + year +") " + d.journal)
-        pubdd.append(link)
-        // pubdd.text(d.fauthor + " et al. (" + year +") " + d.journal);
-        condesc.append(pubdt);
-        condesc.append(pubtitledd)
-        condesc.append(pubdd);
-        $(parentelement).append(condesc);
+        $(".barchart").fadeIn()
     }
     
     function lover(d,i) {
@@ -503,3 +437,71 @@ d3.json(NETDATA, function(error, graph) {
     force.start()
     
 });
+
+function createDescriptionDiv(d,parentelement){
+    $(parentelement).html('');
+    var condesc = $('<dl></dl>').addClass('dl-horizontal');
+    
+    //Description
+    var descriptiondt = $('<dt>Condition</dt>');
+    var descriptiondd = $('<dd></dd>');
+    descriptiondd.text(d.description);
+    condesc.append(descriptiondt);
+    condesc.append(descriptiondd);
+
+    //Control
+    var controldt = $('<dt>Control</dt>');
+    var controldd = $('<dd></dd>');
+    if($.inArray(d.control_description, ["Untreated","Control","vehicle"]) < 0){
+        controldd.text(d.control_description);
+        condesc.append(controldt);
+        condesc.append(controldd);
+    }
+
+    //Control
+    var controldt = $('<dt>Time</dt>');
+    var controldd = $('<dd></dd>');
+    if(d.time_min){
+        controldd.text(d.time_min + "min");
+        condesc.append(controldt);
+        condesc.append(controldd);
+    }
+    
+    // Sample
+    var biodt = $('<dt>Sample</dt>');
+    var biodd = $('<dd></dd>');
+    biodd.text(d.biological_sample);
+    condesc.append(biodt);
+    condesc.append(biodd);
+    $(parentelement).append(condesc);
+
+    // Enrichment
+    var enrichdt = $('<dt>Enrichment</dt>');
+    var enrichdd = $('<dd></dd>');
+    enrichdd.text(d.enrichment_method);
+    condesc.append(enrichdt);
+    condesc.append(enrichdd);
+    $(parentelement).append(condesc);
+
+    // Labelling
+    var labdt = $('<dt>Labelling</dt>');
+    var labdd = $('<dd></dd>');
+    labdd.text(d.labelling_method);
+    condesc.append(labdt);
+    condesc.append(labdd);
+    $(parentelement).append(condesc);
+
+    //Journal
+    var pubdt = $('<dt>Publication</dt>');
+    var pubtitledd = $('<dd></dd>');
+    var pubdd = $('<dd></dd>');
+    pubtitledd.text(d.title)
+    var year = new Date(d.publication_date).getFullYear()
+    var link = $('<a></a>').attr("href","http://www.ncbi.nlm.nih.gov/pubmed/?term=" + d.pubmed_id).text(d.fauthor + " et al. (" + year +") " + d.journal)
+    pubdd.append(link)
+    // pubdd.text(d.fauthor + " et al. (" + year +") " + d.journal);
+    condesc.append(pubdt);
+    condesc.append(pubtitledd)
+    condesc.append(pubdd);
+    $(parentelement).append(condesc);
+}

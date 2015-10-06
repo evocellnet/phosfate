@@ -6,23 +6,49 @@ layout: default
 <!--   <h1>Example Website</h1> -->
 <!-- </div> -->
 
-<!-- Dropdown -->
-<div id="selectbox" class="form-group"></div>
+<div class="row">
+  <!-- Network container      -->
+  <div class="cntainr col-xs-12 col-md-8" id="netCon">
+    <!-- Dropdown -->
+    <div id="selectbox" class="form-group"></div>
+    <div id="network-view" style="height:100%;width:100%"></div>
+    <div class="well well-lg">
+      Click on nodes to report conditional description
+    </div>
+    <hr>
+    <!-- Description -->
+    <div id="descriptionTable" style="height:100%;width:100%" class="col-md-7"></div>
+  </div>
 
+  <div class="col-xs-12 col-md-4">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#activities" data-toggle="tab" aria-expanded="true">KSEA Activities</a></li>
+      <li class=""><a href="#complexes" data-toggle="tab" aria-expanded="false">Complex Regulation</a></li>
+      <li class=""><a href="#similar" data-toggle="tab" aria-expanded="false">Similar Conditions</a></li>
+    </ul>
 
-<!-- Network container      -->
-<div class="cntainr" id="netCon">
-  <div id="network-view" style="height:100%;width:100%"></div>
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade active in" id="activities">
+        <div class="well well-lg">
+          Click on nodes to report conditional activities
+        </div>
+        <!-- Activities Barchart -->
+        <div class="barchart" id="activities-barchart-view"></div>
+      </div>
+      <div class="tab-pane fade" id="complexes">
+        <div class="well well-lg">
+          Click on nodes to report conditional complex regulation
+        </div>
+        <!-- Complexes Barchart -->
+        <div class="barchart" id="complexes-barchart-view"></div>
+      </div>
+      <div class="tab-pane fade" id="similar">
+        <div class="well well-lg">
+          Click on nodes to report conditional complex regulation
+        </div>
+        <!-- Sample Similarities Barchart -->
+        <div class="barchart" id="similar-barchart-view"></div>
+      </div>
+    </div>
+  </div>
 </div>
-
-<!-- Description -->
-<div id="descriptionTable" style="height:100%;width:100%" class="col-md-7"></div>
-
-<!-- Activities Barchart -->
-<div id="activities-barchart-view" style="height:100%;width:100%" class="col-md-7"></div>
-
-<!-- Complexes Barchart -->
-<div id="complexes-barchart-view" style="height:100%;width:100%" class="col-md-7"></div>
-
-<!-- Sample Similarities Barchart -->
-<div id="similar-barchart-view" style="height:100%;width:100%" class="col-md-7"></div>
