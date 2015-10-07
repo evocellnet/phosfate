@@ -419,7 +419,9 @@ d3.json(NETDATA, function(error, graph) {
         }
     }
 
-    $('.progress-bar').attr('aria-valuetransitiongoal', 100).progressbar();
+    $(".tab-content .tab-pane .well").css("min-height",  $(NETCONTAINER).parent().width() + "px")
+    $(".cntainr .well").css("min-height",
+                            ($(".col-md-4").height() - $("#netandserch").height() - parseInt($("hr").css("marginBottom")) - parseInt($(".well").css("marginBottom"))) + "px")
 
 
     // Use a timeout to allow the rest of the page to load first.

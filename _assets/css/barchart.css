@@ -1,4 +1,19 @@
 
+#myTabContent{
+    min-width: 480px;
+}
+
+#tabmenu{
+    min-width: 480px;
+}
+
+.well {
+    color: #999;
+    font-weight:bold;
+    text-align: center;
+}
+
+
 .barchart{
     height:100%;
     width:100%;
