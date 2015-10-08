@@ -1,3 +1,4 @@
+
 // Adding responsiveness to the elements
 $(window).on("resize", function() {
     console.log("resize");
@@ -8,4 +9,9 @@ $(window).on("resize", function() {
                             ($(".col-md-4").height() - $("#netandserch").height() - parseInt($("hr").css("marginBottom")) - parseInt($(".well").css("marginBottom"))) + "px")
     
 }).trigger("resize");
+
+
+$('button[data-select2-open]').click(function(){
+  $('#' + $(this).data('select2-open')).select2('open');
+});
 

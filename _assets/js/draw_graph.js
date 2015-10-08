@@ -35,58 +35,51 @@ var heatmapColour = d3.scale.linear()
     .range(colours);
 
 
-// Select for kinases
-var theselect = document.createElement("select");
-theselect.className = theselect.className + "form-control";
-theselect.id = "kinaseselector"
-var firstOption = document.createElement("option")
-firstOption.innerHTML = "Select Kinase";
-firstOption.disabled = true;
-firstOption.selected = true;
-theselect.appendChild(firstOption);
+
 
 // Create dropdown menu
-d3.csv("data/activities.csv", function(d){ return d.kinase },
+d3.csv("data/activities.csv", function(d,i){ return { "id": d.kinase, "text":d.kinase} },
        function(data){
-           data.forEach(function(k){
-               var anOption = document.createElement('option');
-               anOption.value = k;
-               anOption.innerHTML = k;
-               theselect.appendChild(anOption);
-           })
+           $(".selectbox").select2({
+               allowClear: true,
+               data: data
+           });
        });
 
-$("#selectbox").append(theselect);
 
-theselect.onchange = function () {
-    console.log(this.value)
+$(".selectbox").on("change", function(){
+    console.log($(".selectbox").select2("val"));
     var c;
-    d3.csv("data/activities.csv")
-        .row(function(d) { if(d.kinase == theselect.value) {return d }})
-        .get(function(error, data) {
-            data = data[0];
-            var newdata = {};
-            for (var d in data) {
-                if(d != "kinase"){
-                    if (data.hasOwnProperty(d)) {              
-                        if(data[d] == "NA"){
-                            newdata[d] = 0;
-                        }else{
-                            newdata[d] = +data[d];
+    if($(".selectbox").select2("val") != ""){
+        d3.csv("data/activities.csv")
+            .row(function(d) { if(d.kinase == $(".selectbox").select2("val")) {return d }})
+            .get(function(error, data) {
+                data = data[0];
+                var newdata = {};
+                for (var d in data) {
+                    if(d != "kinase"){
+                        if (data.hasOwnProperty(d)) {              
+                            if(data[d] == "NA"){
+                                newdata[d] = 0;
+                            }else{
+                                newdata[d] = +data[d];
+                            }
+                            
                         }
-                        
-                    }
-                }                
-            }    
-            // // dynamic bit...
-            var c = d3.scale.linear()
-                .domain([-3,0,3])
-                .range(["red","white","blue"]);
-            d3.selectAll(".node").style("stroke", function(d) { return d3.rgb(heatmapColour(newdata["cond_"+d.name])).darker() });
-            d3.selectAll(".node").style("fill", function(d) { return d3.rgb(heatmapColour(newdata["cond_"+d.name])) });
-        });
-
-};
+                    }                
+                }    
+                // // dynamic bit...
+                var c = d3.scale.linear()
+                    .domain([-3,0,3])
+                    .range(["red","white","blue"]);
+                d3.selectAll(".node").style("stroke", function(d) { return d3.rgb(heatmapColour(newdata["cond_"+d.name])).darker() });
+                d3.selectAll(".node").style("fill", function(d) { return d3.rgb(heatmapColour(newdata["cond_"+d.name])) });
+            });
+    }else{
+        d3.selectAll(".node").style("stroke", function(d) { return d3.rgb(d.color).darker() })
+        d3.selectAll(".node").style("fill", function(d,i) { return d3.rgb(d.color); })
+    }
+})
 
 
 var test;
@@ -330,7 +323,7 @@ d3.json(NETDATA, function(error, graph) {
     }
 
     function mover(d,i) {
-        $(".well").remove();
+        $(".well .clickmsg").remove();
         createDescriptionDiv(d, "#descriptionTable");
         updateKinaseData(d.name);
         updateCplxData(d.name);
@@ -421,7 +414,7 @@ d3.json(NETDATA, function(error, graph) {
 
     $(".tab-content .tab-pane .well").css("min-height",  $(NETCONTAINER).parent().width() + "px")
     $(".cntainr .well").css("min-height",
-                            ($(".col-md-4").height() - $("#netandserch").height() - parseInt($("hr").css("marginBottom")) - parseInt($(".well").css("marginBottom"))) + "px")
+                            ($("#myTabContent").parent().height() - $("#netandsearch").height() - parseInt($("hr").css("marginBottom")) - parseInt($(".well").css("marginBottom"))) + "px")
 
 
     // Use a timeout to allow the rest of the page to load first.
@@ -497,12 +490,15 @@ function createDescriptionDiv(d,parentelement){
     var pubdt = $('<dt>Publication</dt>');
     var pubtitledd = $('<dd></dd>');
     var pubdd = $('<dd></dd>');
-    pubtitledd.text(d.title)
+    var pubau =  $('<dd></dd>');
+    pubtitledd.text(d.title);
+    pubau.text(d.fauthor + " et al.");
     var year = new Date(d.publication_date).getFullYear()
-    var link = $('<a></a>').attr("href","http://www.ncbi.nlm.nih.gov/pubmed/?term=" + d.pubmed_id).text(d.fauthor + " et al. (" + year +") " + d.journal)
+    var link = $('<a></a>').attr("href","http://www.ncbi.nlm.nih.gov/pubmed/?term=" + d.pubmed_id).text(d.journal + " (" + year +") ")
     pubdd.append(link)
     // pubdd.text(d.fauthor + " et al. (" + year +") " + d.journal);
     condesc.append(pubdt);
+    condesc.append(pubau)
     condesc.append(pubtitledd)
     condesc.append(pubdd);
     $(parentelement).append(condesc);

@@ -1,4 +1,21 @@
 
+#netandsearch{
+    margin-bottom: 21px;
+}
+
+.tab-content .tab-pane .well{
+    background-color: #fcfcfc;
+}
+
+.cntainr .well{
+    background-color: #fcfcfc;
+    padding: 20px 0px;
+}
+
+#descriptionTable{
+    /* font-size: 0.8em; */
+}
+
 #myTabContent{
     min-width: 480px;
 }
@@ -7,12 +24,15 @@
     min-width: 480px;
 }
 
-.well {
+#myTabContent .well{
+    padding: 20px 0px;
+}
+
+.clickmsg {
     color: #999;
     font-weight:bold;
     text-align: center;
 }
-
 
 .barchart{
     height:100%;

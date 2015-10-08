@@ -9,17 +9,28 @@ layout: default
 <div class="row">
   <!-- Network container      -->
   <div class="cntainr col-xs-12 col-md-8" id="netCon">
-    <div id="netandserch">
-      <!-- Dropdown -->
-      <div id="selectbox" class="form-group"></div>
+    <div id="netandsearch">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="input-group input-group-md select2-bootstrap-prepend">
+            <span class="input-group-btn">
+	      <button class="btn btn-default xbtn" type="button" data-select2-open="select2-input-group-append">
+	        <span class="glyphicon glyphicon-search"></span>
+	      </button>
+	    </span>
+            <input multiple type="search" class="select2-container form-control selectbox" id="select2-input-group-append" placeholder="Select Kinase"></input>
+          </div>
+        </div>
+      </div>
       <div id="network-view" style="height:100%;width:100%"></div>
-      <hr>
     </div>
-    <div class="well well-lg col-middle">
-      <div>Click on nodes to report conditional description</div>
+    <div class="col-md-12 col-xs-12">
+      <div class="well well-lg col-middle">
+        <div class="clickmsg">Click on nodes to report conditional description</div>
+        <!-- Description -->
+        <div id="descriptionTable" style="height:100%;width:100%" ></div>
+      </div>
     </div>
-    <!-- Description -->
-    <div id="descriptionTable" style="height:100%;width:100%" class="col-md-7"></div>
   </div>
 
   <div class="col-xs-12 col-md-4">
@@ -32,24 +43,24 @@ layout: default
     <div id="myTabContent" class="tab-content">
       <div class="tab-pane fade active in" id="activities">
         <div class="well well-lg">
-          <div>Click on nodes to report conditional activities</div>
+          <div class="clickmsg">Click on nodes to report conditional activities</div>
+          <!-- Activities Barchart -->
+          <div class="barchart" id="activities-barchart-view"></div>
         </div>
-        <!-- Activities Barchart -->
-        <div class="barchart" id="activities-barchart-view"></div>
       </div>
       <div class="tab-pane fade" id="complexes">
         <div class="well well-lg">
-          <div>Click on nodes to report conditional complex regulation</div>
+          <div class="clickmsg">Click on nodes to report conditional complex regulation</div>
+          <!-- Complexes Barchart -->
+          <div class="barchart" id="complexes-barchart-view"></div>
         </div>
-        <!-- Complexes Barchart -->
-        <div class="barchart" id="complexes-barchart-view"></div>
       </div>
       <div class="tab-pane fade" id="similar">
         <div class="well well-lg">
-          <div>Click on nodes to report conditional complex regulation</div>
+          <div class="clickmsg">Click on nodes to report conditional complex regulation</div>
+          <!-- Sample Similarities Barchart -->
+          <div class="barchart" id="similar-barchart-view"></div>
         </div>
-        <!-- Sample Similarities Barchart -->
-        <div class="barchart" id="similar-barchart-view"></div>
       </div>
     </div>
   </div>

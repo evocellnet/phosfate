@@ -5,7 +5,7 @@ var ACTCONTAINER = "#activities-barchart-view"
 var condition = "1_1";
 var aspectRatio = 2;
 
-var margin = {top: 60, right: 50, bottom: 10, left: 50},
+var margin = {top: 60, right: 50, bottom: 10, left: 30},
     width = $(ACTCONTAINER).width() - margin.left - margin.right,
     height = width * aspectRatio;
 
@@ -172,7 +172,7 @@ function updateKinaseData(condition) {
 
 
 function barClick(d, i){
-    $("#kinaseselector").val(d.kinase).change();            
+    $(".selectbox").val(d.kinase).trigger("change");;
 }
 
 function updateBarChartWindow(){
