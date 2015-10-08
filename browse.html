@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Browse</title>
+  <meta name="description" content="An Atlas of Human Quantitative Phosphoregulation">
+  <link rel="canonical" href="http://dogcaesar.github.io/PhosFate/browse.html">  
+  <link rel="stylesheet" href="/PhosFate/assets/vendor/bootswatch/css/bootstrap.css"/>
+  <link rel="stylesheet" href="/PhosFate/assets/vendor/select2/select2.css"/>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/PhosFate/assets/application-0fd58674ac0b8032d983e50548bae647.css">
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://dogcaesar.github.io/PhosFate/browse.html">PhosFate</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="browse.html" class="active">Browse</a></li>
+        <li><a href="download.html" class="active">Download</a></li>
+        <li><a href="help.html" class="active">Help</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div>
+</nav>
+
+    
+    <div class="container-fluid" role="main">
+      <!-- <div class="page-header" id="banner"> -->
+<!--   <h1>Example Website</h1> -->
+<!-- </div> -->
+
+<div class="row">
+  <!-- Network container      -->
+  <div class="cntainr col-xs-12 col-md-8" id="netCon">
+    <div id="netandsearch">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="input-group input-group-md select2-bootstrap-prepend">
+            <span class="input-group-btn">
+	      <button class="btn btn-default xbtn" type="button" data-select2-open="select2-input-group-append">
+	        <span class="glyphicon glyphicon-search"></span>
+	      </button>
+	    </span>
+            <input multiple type="search" class="select2-container form-control selectbox" id="select2-input-group-append" placeholder="Select Kinase"></input>
+          </div>
+        </div>
+      </div>
+      <div id="network-view" style="height:100%;width:100%"></div>
+    </div>
+    <div class="col-md-12 col-xs-12">
+      <div class="well well-lg col-middle">
+        <div class="clickmsg">Click on nodes to report conditional description</div>
+        <!-- Description -->
+        <div id="descriptionTable" style="height:100%;width:100%" ></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-md-4">
+    <ul id="tabmenu" class="nav nav-tabs">
+      <li class="active"><a href="#activities" data-toggle="tab" aria-expanded="true">KSEA Activities</a></li>
+      <li class=""><a href="#complexes" data-toggle="tab" aria-expanded="false">Complex Regulation</a></li>
+      <li class=""><a href="#similar" data-toggle="tab" aria-expanded="false">Similar Conditions</a></li>
+    </ul>
+
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade active in" id="activities">
+        <div class="well well-lg">
+          <div class="clickmsg">Click on nodes to report conditional activities</div>
+          <!-- Activities Barchart -->
+          <div class="barchart" id="activities-barchart-view"></div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="complexes">
+        <div class="well well-lg">
+          <div class="clickmsg">Click on nodes to report conditional complex regulation</div>
+          <!-- Complexes Barchart -->
+          <div class="barchart" id="complexes-barchart-view"></div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="similar">
+        <div class="well well-lg">
+          <div class="clickmsg">Click on nodes to report conditional complex regulation</div>
+          <!-- Sample Similarities Barchart -->
+          <div class="barchart" id="similar-barchart-view"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    </div>
+
+    <footer>
+  <div class="container-fluid">
+    <hr>
+    <small>
+      2014 Copyright Example Ltd
+    </small>
+  </div>
+</footer>
+
+    <script src="/PhosFate/assets/application-4d5a1092f590974ce27d8a0390c708a0.js"></script>
+  </body>
+</html>

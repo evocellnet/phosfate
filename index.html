@@ -6,14 +6,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>PhosFate</title>
+  <title>Home</title>
   <meta name="description" content="An Atlas of Human Quantitative Phosphoregulation">
-  <link rel="stylesheet" href="/PhosFate/assets/application-34b45225bebbb9d4cd85aed86b1b867e.css">
   <link rel="canonical" href="http://dogcaesar.github.io/PhosFate/">  
   <link rel="stylesheet" href="/PhosFate/assets/vendor/bootswatch/css/bootstrap.css"/>
-  
+  <link rel="stylesheet" href="/PhosFate/assets/vendor/select2/select2.css"/>
+
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="/PhosFate/assets/application-34b45225bebbb9d4cd85aed86b1b867e.css">
+  <link rel="stylesheet" href="/PhosFate/assets/application-0fd58674ac0b8032d983e50548bae647.css">
 </head>
 
 
@@ -22,42 +22,34 @@
     <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="/">Example Website</a>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://dogcaesar.github.io/PhosFate/">PhosFate</a>
     </div>
+
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="browse.html" class="active">Browse</a></li>
+        <li><a href="download.html" class="active">Download</a></li>
+        <li><a href="help.html" class="active">Help</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
   </div>
 </nav>
 
     
     <div class="container" role="main">
-      <!-- <div class="page-header" id="banner"> -->
-<!--   <h1>Example Website</h1> -->
-<!-- </div> -->
-
-<!-- Dropdown -->
-<div id="selectbox" class="form-group"></div>
-
-
-<!-- Network container      -->
-<div class="cntainr" id="netCon">
-  <div id="network-view" style="height:100%;width:100%"></div>
-</div>
-
-<!-- Description -->
-<div id="descriptionTable" class="col-md-7"></div>
-
-<!-- Activities Barchart -->
-<div id="activities-barchart-view" class="col-md-7"></div>
-
-<!-- Complexes Barchart -->
-<div id="complexes-barchart-view" class="col-md-7"></div>
-
-<!-- Sample Similarities Barchart -->
-<div id="similar-barchart-view" class="col-md-7"></div>
+      Home page test
 
     </div>
 
     <footer>
-  <div class="container">
+  <div class="container-fluid">
     <hr>
     <small>
       2014 Copyright Example Ltd
@@ -65,6 +57,6 @@
   </div>
 </footer>
 
-    <script src="/PhosFate/assets/application-12db069b7d349dbcc4d225c7f82782f1.js"></script>
+    <script src="/PhosFate/assets/application-4d5a1092f590974ce27d8a0390c708a0.js"></script>
   </body>
 </html>
