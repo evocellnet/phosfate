@@ -170,8 +170,7 @@ function updateSimData(condition) {
 }
 
 function similarClick(d){
-    console.log(d.condition)
-    createDescriptionDiv(d, "#descriptionTable");
+    createDescriptionDiv(d3.selectAll('.node[main^=cond_'+ d.condition +']').data()[0], "#descriptionTable");
     updateKinaseData(d.condition);
     updateCplxData(d.condition);
     updateSimData(d.condition);

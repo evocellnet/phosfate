@@ -252,7 +252,7 @@ d3.json(NETDATA, function(error, graph) {
               .size(function(d) { return parseInt("400");})
               .type(function(d) { return d3.svg.symbolTypes[parseInt("6")]; })
              )
-        .attr('main', function(d) {return d.id})
+        .attr('main', function(d) {return "cond_" + d.name})
         .style("stroke", function(d) { return d3.rgb(d.color).darker() })
         .style("fill", function(d,i) { return d3.rgb(d.color); })
     var labels = gnodes.append("text")
