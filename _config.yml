@@ -2,8 +2,8 @@
 title: PhosFate
 email: ochoa@ebi.ac.uk
 description: An Atlas of Human Quantitative Phosphoregulation
-baseurl: "/PhosFate" # the subpath of your site, e.g. /blog/
-url: "http://dogcaesar.github.io" # the base hostname & protocol for your site
+baseurl: "/phosfate" # the subpath of your site, e.g. /blog/
+url: "http://evocellnet.github.io" # the base hostname & protocol for your site
 
 # Build settings
 markdown: kramdown
