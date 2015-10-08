@@ -1,6 +1,10 @@
 
+.navbar{
+    font-size: 120%;
+}
+
 .footer{
-    margin: 30px 0;
+    margin: 70px 0;
 }
 
 #netandsearch{
