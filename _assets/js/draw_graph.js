@@ -323,6 +323,11 @@ d3.json(NETDATA, function(error, graph) {
     }
 
     function mover(d,i) {
+	d3.selectAll('[highlighted=true]').style("fill", function(d) { return d3.rgb(d.color) });
+	d3.selectAll('[highlighted=true]').attr("highlighted",false);
+        d3.selectAll(".node[main^=cond_"+d.name+"]").style("fill","yellow");
+        d3.selectAll(".node[main^=cond_"+d.name+"]").attr("highlighted",true);
+
         $(".well .clickmsg").remove();
         createDescriptionDiv(d, "#descriptionTable");
         updateKinaseData(d.name);

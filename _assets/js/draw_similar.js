@@ -170,6 +170,11 @@ function updateSimData(condition) {
 }
 
 function similarClick(d){
+    d3.selectAll('[highlighted=true]').style("fill", function(d) { return d3.rgb(d.color) });
+    d3.selectAll('[highlighted=true]').attr("highlighted",false);
+    d3.selectAll(".node[main^=cond_"+d.condition+"]").style("fill","yellow");
+    d3.selectAll(".node[main^=cond_"+d.condition+"]").attr("highlighted",true);
+
     createDescriptionDiv(d3.selectAll('.node[main^=cond_'+ d.condition +']').data()[0], "#descriptionTable");
     updateKinaseData(d.condition);
     updateCplxData(d.condition);
