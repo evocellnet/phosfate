@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/PhosFate/assets/vendor/select2/select2.css"/>
 
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="/PhosFate/assets/application-0fd58674ac0b8032d983e50548bae647.css">
+  <link rel="stylesheet" href="/PhosFate/assets/application-9b913eef0ac65581f965bf6bd20473d3.css">
 </head>
 
 
@@ -35,7 +35,6 @@
       <ul class="nav navbar-nav navbar-right">
         <li><a href="browse.html" class="active">Browse</a></li>
         <li><a href="download.html" class="active">Download</a></li>
-        <li><a href="help.html" class="active">Help</a></li>
         <li><a href="about.html" class="active">About</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
@@ -44,19 +43,70 @@
 
     
     <div class="container" role="main">
-      Home page test
+      <h1>PhosFate</h1>
+<p class="lead">An Atlas of Human Conditional Phosphoregulation</p>
+  
+<div class="page-header">
+  <h3>Profiling Conditional Kinase Activities</h3>
+</div>
+
+<div class="row">
+  <div class="col-md-5">
+    <img class="featurette-image img-responsive" src="assets/img/activities.png">
+  </div>
+
+  <div class="col-md-7">
+    <p>To describe the kinase regulation in a panel of 150 conditional phosphoproteomes, we systematically predicted the conditional activity of each kinase by testing the enrichment of previously reported substrates on differentially regulated phosphosites. This statistical analysis is based on the intuition that a kinase activity in a given condition is increasing if its known target sites tend to be up-regulated. Alternatively to previous efforts, we used a modified version of the Kinase Set Enrichment Analysis (KSEA) which avoids arbitrary thresholds and resembles the original Gene Set Enrichment Analysis (GSEA). As a result, we predicted the activity for a list of 209 kinases in a range between 10 to 150 conditions.</p>
+  </div>
+</div>
+
+<div class="page-header">
+  <h3>A Map of Human Signaling States</h3>
+</div>
+
+<div class="row">
+  <div class="col-md-7">
+    <p>The kinase activity profiling results useful to discriminate similar responses based on their activity changes after perturbation. Motivated by these idea, we developed a robust algorithm to order the high-dimensional kinase activities into an interpretable map that could cluster biological states and reveal progression through different signaling processes. We then use the signaling map to search for groups of conditions displaying similar kinase activity profiles as well as to find kinases specifically regulated in certain molecular responses.</p>
+  </div>
+  <div class="col-md-5">
+    <img class="featurette-image img-responsive" src="assets/img/map.png">
+  </div>
+</div>
+
+
+<div class="page-header">
+  <h3>Effector Complexes Regulation</h3>
+</div>
+
+<div class="row">
+  <div class="col-md-5">
+    <img class="featurette-image img-responsive" src="assets/img/complex.png">
+  </div>
+  <div class="col-md-7">
+    <p>In order to associate drivers and effectors, we looked for protein complexes presenting a synchronized regulation with kinases across conditions. In order to obtain these predictions we first calculated the undergoing complex regulation by quantifying the enrichment on highly phospho-regulated sites using the Kolmogorov-Smirnov test (KS). We observed that kinases under active regulation in the same conditions as the protein complexes could directly or indirectly drive their molecular response.</p>
+  </div>
+</div>
+
+<div class="col-md-12 text-center">
+  <a class="btn btn-primary btn-lg" href="browse.html"> Start Browsing </a>
+</div>
+
 
     </div>
 
-    <footer>
-  <div class="container-fluid">
-    <hr>
-    <small>
-      2014 Copyright Example Ltd
-    </small>
+    <footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 text-center">
+        <a href="http://ebi.ac.uk"><img class="featurette-image img-responsive" src="assets/img/EMBL_EBI_logo_180pixels_RGB.jpg"></a>
+      </div>
+      <div class="col-md-8 text-right">
+        <p class="text-primary"><a href="http://www.evocellnet.com/">Evocellnet (Beltrao Lab)</a></p>
+        <p class="text-muted">© 2015</p>
+      </div>
   </div>
 </footer>
 
-    <script src="/PhosFate/assets/application-4d5a1092f590974ce27d8a0390c708a0.js"></script>
+    <script src="/PhosFate/assets/application-0280c1181ba6fc295299d45c99c173b1.js"></script>
   </body>
 </html>

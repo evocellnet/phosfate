@@ -38,6 +38,12 @@ label {
   position: fixed;
   right: 0px; }
 
+.navbar {
+  font-size: 120%; }
+
+.footer {
+  margin: 70px 0; }
+
 #netandsearch {
   margin-bottom: 21px; }
 
