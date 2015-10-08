@@ -422,7 +422,7 @@ d3.json(NETDATA, function(error, graph) {
 
     $(".tab-content .tab-pane .well").css("min-height",  $(NETCONTAINER).parent().width() + "px")
     $(".cntainr .well").css("min-height",
-                            ($("#myTabContent").parent().height() - $("#netandsearch").height() - parseInt($("hr").css("marginBottom")) - parseInt($(".well").css("marginBottom"))) + "px")
+                            ($("#myTabContent").parent().height() - $("#netandsearch").height() - 20 - parseInt($(".well").css("marginBottom"))) + "px")
 
 
     // Use a timeout to allow the rest of the page to load first.
