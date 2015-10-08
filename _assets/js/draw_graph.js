@@ -74,10 +74,13 @@ $(".selectbox").on("change", function(){
                     .range(["red","white","blue"]);
                 d3.selectAll(".node").style("stroke", function(d) { return d3.rgb(heatmapColour(newdata["cond_"+d.name])).darker() });
                 d3.selectAll(".node").style("fill", function(d) { return d3.rgb(heatmapColour(newdata["cond_"+d.name])) });
+                d3.selectAll('[highlighted=true]').style("fill","yellow");
+
             });
     }else{
         d3.selectAll(".node").style("stroke", function(d) { return d3.rgb(d.color).darker() })
         d3.selectAll(".node").style("fill", function(d,i) { return d3.rgb(d.color); })
+        d3.selectAll('[highlighted=true]').style("fill","yellow");
     }
 })
 
