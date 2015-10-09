@@ -51,20 +51,24 @@ label {
   background-color: #fcfcfc; }
 
 .cntainr .well {
+  font-size: 0.85vw;
   background-color: #fcfcfc;
-  padding: 20px 0px; }
+  padding: 20px 20px; }
 
-#descriptionTable {
+#descriptionTable dl {
+  margin-bottom: 0px;
   /* font-size: 0.8em; */ }
 
 #myTabContent {
-  min-width: 480px; }
+  /* min-width: 480px; */ }
 
 #tabmenu {
-  min-width: 480px; }
+  font-size: 0.85vw;
+  /* min-width: 480px; */ }
 
 #myTabContent .well {
-  padding: 20px 0px; }
+  padding: 20px 0px;
+  font-size: 0.85vw; }
 
 .clickmsg {
   color: #999;
