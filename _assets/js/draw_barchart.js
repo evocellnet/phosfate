@@ -3,16 +3,16 @@
 var ACTDATA = 'data/activities.csv';
 var ACTCONTAINER = "#activities-barchart-view"
 var condition = "1_1";
-var aspectRatio = 2;
+var aspectRatio = 2.5;
 
-var margin = {top: 60, right: 50, bottom: 10, left: 30},
+var margin = {top: 60, right: 30, bottom: 10, left: 30},
     width = $(ACTCONTAINER).width() - margin.left - margin.right,
     height = width * aspectRatio;
-
+    
 var kinsvg = d3.select(ACTCONTAINER).append("svg")
 // .attr('viewBox','0 0 '+Math.min(width,height)+' '+Math.min(width,height))
 // .attr('preserveAspectRatio','xMinYMin')
-    .attr("width", width + margin.left + margin.right)
+    .attr("width", width - margin.left - margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("id", "chartsvg")
@@ -175,13 +175,35 @@ function barClick(d, i){
     $(".selectbox").val(d.kinase).trigger("change");;
 }
 
-function updateBarChartWindow(){
-    thewidth = $(ACTCONTAINER).width();
-    theheight = thewidth * aspectRatio;
-    $("#chartsvg").attr("width", thewidth + margin.left + margin.right)
-        .attr("height", theheight + margin.top + margin.bottom);
-    // Check this to make it responsive in the future
-    // http://animateddata.co.uk/articles/d3/responsive/
+function updateBarChartWindow(){    
+  
+    var thischart = $("#chartsvg");
+  
+    x.range([0,thepwidth - margin.left])
+    y.rangeRoundBands([0, thepheight - margin.top], .2);
+  
+    // svg element
+    thischart.parent().attr("width", thepwidth + margin.left)
+    thischart.parent().attr("height", thepheight + margin.top)
+    
+    d3.select(ACTCONTAINER).selectAll(".barlabels")
+            .attr("x", function(d) { return d.activity > 0 ? Math.abs(x(d.activity) - x(0)) - 3 : 3 })
+            .style("font-size", function(d) { return y.rangeBand() + "px"; })
+            .attr("y", y.rangeBand() / 2)
+
+    d3.select(ACTCONTAINER).selectAll(".bar rect")
+      .attr("width", function(d) { return Math.abs(x(d.activity) - x(0)) })
+      .attr("height", y.rangeBand())
+
+    d3.select(ACTCONTAINER).selectAll(".bar")
+            .attr("x", function(d) { x(Math.min(0, d.activity)) })
+            .attr("transform", function(d, i) { return "translate("+x(Math.min(0, d.activity))+"," + y(d.kinase) + ")"; })
+    //Axis    
+    d3.select(ACTCONTAINER).select(".x.axis").call(xAxis);    
+    d3.select(ACTCONTAINER).select(".x.label").attr("x", thepwidth/2)
+    $("#chartsvg .y.axis line").attr("x1",x(0));
+    $("#chartsvg .y.axis line").attr("x2",x(0));
+    $("#chartsvg .y.axis line").attr("y2",thepheight);
 }
 
 

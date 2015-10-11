@@ -9,8 +9,8 @@ var aspectRatio = 1.5;
 var cplxsvg = d3.select(CPLXCONTAINER).append("svg")
 // .attr('viewBox','0 0 '+Math.min(width,height)+' '+Math.min(width,height))
 // .attr('preserveAspectRatio','xMinYMin')
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("width", width - margin.left - margin.right)
+    .attr("height", height - margin.top - margin.bottom)
     .append("g")
     .attr("id", "cplxchartsvg")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -167,6 +167,7 @@ function updateCplxData(condition) {
     });
 }
 
+
 function cplxClick(d){
     var url = "http://mips.helmholtz-muenchen.de/genre/proj/corum/complexdetails.html?id="
     window.open(url + d.corum_id,'_blank');
@@ -181,5 +182,36 @@ function cplxClick(d){
 // }
 
 
+function updateBarCplxWindow(){    
+
+    var thischart = $("#cplxchartsvg");
+
+    xcplx.range([0,thepwidth - margin.left])
+    ycplx.rangeRoundBands([0, thepheight - margin.top], .2);
+    
+    // svg element
+    thischart.parent().attr("width", thepwidth + margin.left)
+    thischart.parent().attr("height", thepheight + margin.top)
+
+    d3.select(CPLXCONTAINER).selectAll(".barlabels")
+            .attr("x", function(d) { return d.activity > 0 ? Math.abs(xcplx(d.activity) - xcplx(0)) - 3 : 3 })
+            .style("font-size", function(d) { return ycplx.rangeBand() + "px"; })
+            .attr("y", ycplx.rangeBand() / 2)
+
+    d3.select(CPLXCONTAINER).selectAll(".bar rect")
+      .attr("width", function(d) { return Math.abs(xcplx(d.activity) - xcplx(0)) })
+      .attr("height", ycplx.rangeBand())
+
+    d3.select(CPLXCONTAINER).selectAll(".bar")
+            .attr("x", function(d) { xcplx(Math.min(0, d.activity)) })
+            .attr("transform", function(d, i) { return "translate("+xcplx(Math.min(0, d.activity))+"," + ycplx(d.complex) + ")"; })
+
+    //Axis
+    d3.select(CPLXCONTAINER).select(".x.axis").call(xcplxAxis);
+    d3.select(CPLXCONTAINER).select(".x.label").attr("x", thepwidth/2)
+    $("#cplxchartsvg .y.axis line").attr("x1",xcplx(0));
+    $("#cplxchartsvg .y.axis line").attr("x2",xcplx(0));
+    $("#cplxchartsvg .y.axis line").attr("y2",thepheight);
+}
 
 

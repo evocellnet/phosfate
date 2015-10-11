@@ -10,8 +10,8 @@ var aspectRatio = 1.5;
 var simsvg = d3.select(SIMCONTAINER).append("svg")
 // .attr('viewBox','0 0 '+Math.min(width,height)+' '+Math.min(width,height))
 // .attr('preserveAspectRatio','xMinYMin')
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("width", width - margin.left - margin.right)
+    .attr("height", height - margin.top - margin.bottom)
     .append("g")
     .attr("id", "simchartsvg")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -182,14 +182,36 @@ function similarClick(d){
 }
 
 
-// function updateBarChartWindow(){
-//     thewidth = $(ACTCONTAINER).width();
-//     theheight = thewidth * 1.2;
-//     $("#simchartsvg").attr("width", thewidth + margin.left + margin.right)
-//         .attr("height", theheight + margin.top + margin.bottom);
-//     // Check this to make it responsive in the future
-//     // http://animateddata.co.uk/articles/d3/responsive/
-// }
+function updateBarSimWindow(){
+        
+    var thischart = $("#simchartsvg");
+  
+    xsim.range([0,thepwidth - margin.left])
+    ysim.rangeRoundBands([0, thepheight - margin.top], .2);
+  
+    // svg element
+    thischart.parent().attr("width", thepwidth + margin.left)
+    thischart.parent().attr("height", thepheight + margin.top)
+      
+    d3.select(SIMCONTAINER).selectAll(".barlabels")
+            .attr("x", function(d) { return d.activity > 0 ? Math.abs(xsim(d.activity) - xsim(0)) - 3 : 3 })
+            .style("font-size", function(d) { return ysim.rangeBand() + "px"; })
+            .attr("y", ysim.rangeBand() / 2)
+    
+    d3.select(SIMCONTAINER).selectAll(".bar rect")
+      .attr("width", function(d) { return Math.abs(xsim(d.activity) - xsim(0)) })
+      .attr("height", ysim.rangeBand())
+    
+    d3.select(SIMCONTAINER).selectAll(".bar")
+            .attr("x", function(d) { xsim(Math.min(0, d.activity)) })
+            .attr("transform", function(d, i) { return "translate("+xsim(Math.min(0, d.activity))+"," + ysim(d.condition) + ")"; })
+    //Axis    
+    d3.select(SIMCONTAINER).select(".x.axis").call(xsimAxis);    
+    d3.select(SIMCONTAINER).select(".x.label").attr("x", thepwidth/2)
+    $("#simchartsvg .y.axis line").attr("x1",xsim(0));
+    $("#simchartsvg .y.axis line").attr("x2",xsim(0));
+    $("#simchartsvg .y.axis line").attr("y2",thepheight);
+}
 
 
 
