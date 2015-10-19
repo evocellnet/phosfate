@@ -39,6 +39,7 @@ var mLinkNum = {};
 var nodes = {};
 var minLinks={};
 
+var newdata={};
 
 // Node Colors
 var colours = ["#67001F", "#B2182B", "#D6604D","#F4A582",
@@ -69,12 +70,12 @@ $(".selectbox").on("change", function(){
             .row(function(d) { if(d.kinase == $(".selectbox").select2("val")) {return d }})
             .get(function(error, data) {
                 data = data[0];
-                var newdata = {};
+                newdata = {};
                 for (var d in data) {
                     if(d != "kinase"){
                         if (data.hasOwnProperty(d)) {              
                             if(data[d] == "NA"){
-                                newdata[d] = 0;
+                                newdata[d] = "NaN";
                             }else{
                                 newdata[d] = +data[d];
                             }
@@ -86,8 +87,17 @@ $(".selectbox").on("change", function(){
                 var c = d3.scale.linear()
                     .domain([-3,0,3])
                     .range(["red","white","blue"]);
-                d3.selectAll(".node").style("stroke", function(d) { return d3.rgb(heatmapColour(newdata["cond_"+d.name])).darker() });
-                d3.selectAll(".node").style("fill", function(d) { return d3.rgb(heatmapColour(newdata["cond_"+d.name])) });
+                d3.selectAll(".node").style("stroke", function(d) { if(isNaN(newdata["cond_"+d.name])){
+                    return d3.rgb("#CDC9C9").darker()
+                }else{
+                    return d3.rgb(heatmapColour(newdata["cond_"+d.name])).darker() }
+                                                                  });
+                                                                  
+                d3.selectAll(".node").style("fill", function(d) { if(isNaN(newdata["cond_"+d.name])){
+                    return d3.rgb("#CDC9C9")
+                }else{
+                    return d3.rgb(heatmapColour(newdata["cond_"+d.name])) }
+                                                                });
                 d3.selectAll('[highlighted=true]').style("fill","yellow");
 
             });
@@ -340,7 +350,20 @@ d3.json(NETDATA, function(error, graph) {
     }
 
     function mover(d,i) {
-	d3.selectAll('[highlighted=true]').style("fill", function(d) { return d3.rgb(d.color) });
+        if($(".selectbox").select2("val") == ""){
+	    d3.selectAll('[highlighted=true]').style("fill", function(d) { return d3.rgb(d.color) });
+        }else{
+            d3.selectAll("[highlighted=true]").style("stroke", function(d) { if(isNaN(newdata["cond_"+d.name])){
+                return d3.rgb("#CDC9C9").darker()
+            }else{
+                return d3.rgb(heatmapColour(newdata["cond_"+d.name])).darker() }
+                                                              });
+            d3.selectAll("[highlighted=true]").style("fill", function(d) { if(isNaN(newdata["cond_"+d.name])){
+                return d3.rgb("#CDC9C9")
+            }else{
+                return d3.rgb(heatmapColour(newdata["cond_"+d.name])) }
+                                                                         });
+        }
 	d3.selectAll('[highlighted=true]').attr("highlighted",false);
         d3.selectAll(".node[main^=cond_"+d.name+"]").style("fill","yellow");
         d3.selectAll(".node[main^=cond_"+d.name+"]").attr("highlighted",true);
