@@ -65,7 +65,7 @@ d3.csv("data/activities.csv", function(d,i){ return { "id": d.kinase, "text":d.k
 $(".selectbox").on("change", function(){
     console.log($(".selectbox").select2("val"));
     var c;
-    if($(".selectbox").select2("val") != ""){
+    if($(".selectbox").select2("val") != ""){        
         d3.csv("data/activities.csv")
             .row(function(d) { if(d.kinase == $(".selectbox").select2("val")) {return d }})
             .get(function(error, data) {
@@ -102,6 +102,10 @@ $(".selectbox").on("change", function(){
 
             });
     }else{
+        // clear
+        d3.selectAll('[barhighlighted=true]').style("fill",null)
+        d3.selectAll('[barhighlighted=true]').attr("barhighlighted",false);
+
         d3.selectAll(".node").style("stroke", function(d) { return d3.rgb(d.color).darker() })
         d3.selectAll(".node").style("fill", function(d,i) { return d3.rgb(d.color); })
         d3.selectAll('[highlighted=true]').style("fill","yellow");
@@ -363,6 +367,10 @@ d3.json(NETDATA, function(error, graph) {
             }else{
                 return d3.rgb(heatmapColour(newdata["cond_"+d.name])) }
                                                                          });
+            console.log(d3.selectAll(".bar[main^=" + $(".selectbox").select2("val") +"]"))
+            // mark on barchart
+            d3.selectAll(".bar[main^=" + $(".selectbox").select2("val") +"]").attr("barhighlighted", true)
+            d3.selectAll(".bar[main^=" + $(".selectbox").select2("val") +"]").style("fill","green")
         }
 	d3.selectAll('[highlighted=true]').attr("highlighted",false);
         d3.selectAll(".node[main^=cond_"+d.name+"]").style("fill","yellow");
@@ -559,6 +567,8 @@ var aspectRatio = 2.5;
 var margin = {top: 60, right: 30, bottom: 10, left: 30},
     width = $(ACTCONTAINER).width() - margin.left - margin.right,
     height = width * aspectRatio;
+
+var barResizeFactor = 3;
     
 var kinsvg = d3.select(ACTCONTAINER).append("svg")
 // .attr('viewBox','0 0 '+Math.min(width,height)+' '+Math.min(width,height))
@@ -603,15 +613,16 @@ d3.csv(ACTDATA, function(error, data) {
     var bar = kinsvg.selectAll(".bar")
         .data(data)
         .enter().append("g")
+        .attr('main', function(d) {return d.kinase})
         .attr("class", function(d) { return d.activity < 0 ? "bar negative" : "bar positive"; })
         .attr("x", function(d) { x(Math.min(0, d.activity)) })
         .attr("transform", function(d, i) { return "translate("+x(Math.min(0, d.activity))+"," + y(d.kinase) + ")"; })
-        .on("click", barClick);
-
+        .on("click", barClick)
+    
     bar.append("rect")
         .attr("height", y.rangeBand())
         .attr("width",  function(d) { return Math.abs(x(d.activity) - x(0)) })
-
+    
     bar.append("text")
         .attr("class", "barlabels")
         .attr("text-anchor", function(d) { return d.activity > 0 ? "end" : "start" })
@@ -679,22 +690,14 @@ function updateKinaseData(condition) {
         var bar = kinsvg.selectAll(".bar")
             .data(data)
             .enter().append("g")
+            .attr('main', function(d) {return d.kinase})
             .attr("class", function(d) { return d.activity < 0 ? "bar negative" : "bar positive"; })
             .attr("x", function(d) { x(Math.min(0, d.activity)) })
             .attr("transform", function(d, i) { return "translate("+x(Math.min(0, d.activity))+"," + y(d.kinase) + ")"; })
-            .on("click", barClick);
-
-        // var y0 = y.domain(data.sort( function(a, b) { return b.activity - a.activity })
-        //                   .map(function(d) { return d.kinase; }))
-        //     .copy();
+            .on("click", barClick)
+            .on("mouseover", upSize)
+            .on("mouseout", downSize)
         
-        // svg.selectAll(".bar").sort(function(a, b) { return y0(a.kinase) - y0(b.kinase); });
-
-        // bar.transition()
-        //     .delay(function(d, i) { return i * 10; })
-        //     .duration(200)
-        //     .attr("transform", function(d, i) { return "translate("+x(Math.min(0, d.activity))+"," +  y0(d.kinase) + ")"; });
-
         bar.append("rect")
             .attr("height", y.rangeBand())
             .attr("width",  function(d) { return Math.abs(x(d.activity) - x(0)) })
@@ -718,12 +721,47 @@ function updateKinaseData(condition) {
         chart.select(".x.axis") // change the x axis
             .duration(500)
             .call(xAxis);
+        if( $(".selectbox").select2("val") != ""){
+            d3.selectAll(".bar[main^="+ $(".selectbox").select2("val") +"]").style("fill", "green");
+            d3.selectAll(".bar[main^="+ $(".selectbox").select2("val") +"]").attr("barhighlighted",true);
+        }
     });
 }
 
 
 function barClick(d, i){
+    // clear
+    d3.selectAll('[barhighlighted=true]').style("fill",null)
+    d3.selectAll('[barhighlighted=true]').attr("barhighlighted",false);
+    
+    d3.select(this).attr("barhighlighted", true)
+    d3.select(this).style("fill","green");
     $(".selectbox").val(d.kinase).trigger("change");;
+}
+
+
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function(){
+    this.parentNode.appendChild(this);
+  });
+};
+
+function upSize(d, i){
+    var sel = d3.select(this);
+    sel.moveToFront()  //move to front
+    //y coordinate changed
+    sel.attr("transform", function(d, i) { return "translate("+x(Math.min(0, d.activity))+"," + (y(d.kinase)-y.rangeBand() / barResizeFactor) + ")"; })
+    sel.select("rect").attr("height", y.rangeBand() * barResizeFactor) //resize rect
+    sel.select("text").style("font-size", function(d) {return y.rangeBand()*barResizeFactor + "px"}) //resize text
+    sel.select("text").attr("y", (y.rangeBand() * barResizeFactor) / 2)    
+}
+function downSize(d,i){
+    var sel = d3.select(this);
+    sel.attr("transform", function(d, i) { return "translate("+x(Math.min(0, d.activity))+"," + y(d.kinase) + ")"; })
+    sel.select("rect").attr("height", y.rangeBand())
+    sel.select("text").style("font-size", function(d) {return y.rangeBand() + "px"})
+    sel.select("text").attr("y", y.rangeBand() / 2)
+
 }
 
 function updateBarChartWindow(){    
