@@ -54,6 +54,7 @@ d3.csv(ACTDATA, function(error, data) {
     var bar = kinsvg.selectAll(".bar")
         .data(data)
         .enter().append("g")
+        .attr('main', function(d) {return d.kinase})
         .attr("class", function(d) { return d.activity < 0 ? "bar negative" : "bar positive"; })
         .attr("x", function(d) { x(Math.min(0, d.activity)) })
         .attr("transform", function(d, i) { return "translate("+x(Math.min(0, d.activity))+"," + y(d.kinase) + ")"; })
@@ -130,13 +131,14 @@ function updateKinaseData(condition) {
         var bar = kinsvg.selectAll(".bar")
             .data(data)
             .enter().append("g")
+            .attr('main', function(d) {return d.kinase})
             .attr("class", function(d) { return d.activity < 0 ? "bar negative" : "bar positive"; })
             .attr("x", function(d) { x(Math.min(0, d.activity)) })
             .attr("transform", function(d, i) { return "translate("+x(Math.min(0, d.activity))+"," + y(d.kinase) + ")"; })
             .on("click", barClick)
             .on("mouseover", upSize)
             .on("mouseout", downSize)
-
+        
         bar.append("rect")
             .attr("height", y.rangeBand())
             .attr("width",  function(d) { return Math.abs(x(d.activity) - x(0)) })
@@ -160,11 +162,21 @@ function updateKinaseData(condition) {
         chart.select(".x.axis") // change the x axis
             .duration(500)
             .call(xAxis);
+        if( $(".selectbox").select2("val") != ""){
+            d3.selectAll(".bar[main^="+ $(".selectbox").select2("val") +"]").style("fill", "green");
+            d3.selectAll(".bar[main^="+ $(".selectbox").select2("val") +"]").attr("barhighlighted",true);
+        }
     });
 }
 
 
 function barClick(d, i){
+    // clear
+    d3.selectAll('[barhighlighted=true]').style("fill",null)
+    d3.selectAll('[barhighlighted=true]').attr("barhighlighted",false);
+    
+    d3.select(this).attr("barhighlighted", true)
+    d3.select(this).style("fill","green");
     $(".selectbox").val(d.kinase).trigger("change");;
 }
 
@@ -182,8 +194,7 @@ function upSize(d, i){
     sel.attr("transform", function(d, i) { return "translate("+x(Math.min(0, d.activity))+"," + (y(d.kinase)-y.rangeBand() / barResizeFactor) + ")"; })
     sel.select("rect").attr("height", y.rangeBand() * barResizeFactor) //resize rect
     sel.select("text").style("font-size", function(d) {return y.rangeBand()*barResizeFactor + "px"}) //resize text
-    sel.select("text").attr("y", (y.rangeBand() * barResizeFactor) / 2)
-    
+    sel.select("text").attr("y", (y.rangeBand() * barResizeFactor) / 2)    
 }
 function downSize(d,i){
     var sel = d3.select(this);

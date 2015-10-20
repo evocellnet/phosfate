@@ -51,7 +51,7 @@ d3.csv("data/activities.csv", function(d,i){ return { "id": d.kinase, "text":d.k
 $(".selectbox").on("change", function(){
     console.log($(".selectbox").select2("val"));
     var c;
-    if($(".selectbox").select2("val") != ""){
+    if($(".selectbox").select2("val") != ""){        
         d3.csv("data/activities.csv")
             .row(function(d) { if(d.kinase == $(".selectbox").select2("val")) {return d }})
             .get(function(error, data) {
@@ -88,6 +88,10 @@ $(".selectbox").on("change", function(){
 
             });
     }else{
+        // clear
+        d3.selectAll('[barhighlighted=true]').style("fill",null)
+        d3.selectAll('[barhighlighted=true]').attr("barhighlighted",false);
+
         d3.selectAll(".node").style("stroke", function(d) { return d3.rgb(d.color).darker() })
         d3.selectAll(".node").style("fill", function(d,i) { return d3.rgb(d.color); })
         d3.selectAll('[highlighted=true]').style("fill","yellow");
@@ -349,6 +353,10 @@ d3.json(NETDATA, function(error, graph) {
             }else{
                 return d3.rgb(heatmapColour(newdata["cond_"+d.name])) }
                                                                          });
+            console.log(d3.selectAll(".bar[main^=" + $(".selectbox").select2("val") +"]"))
+            // mark on barchart
+            d3.selectAll(".bar[main^=" + $(".selectbox").select2("val") +"]").attr("barhighlighted", true)
+            d3.selectAll(".bar[main^=" + $(".selectbox").select2("val") +"]").style("fill","green")
         }
 	d3.selectAll('[highlighted=true]').attr("highlighted",false);
         d3.selectAll(".node[main^=cond_"+d.name+"]").style("fill","yellow");
