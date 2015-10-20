@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/phosfate/assets/vendor/select2/select2.css"/>
 
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="/phosfate/assets/application-0c1ad93fceb08835d843b295b06d692d.css">
+  <link rel="stylesheet" href="/phosfate/assets/application-4feadbac3566ec7cc639bef737d62388.css">
 </head>
 
 
@@ -47,13 +47,111 @@
 <!--   <h1>Example Website</h1> -->
 <!-- </div> -->
 
+
 <div class="row">
   <!-- Network container      -->
   <div class="cntainr col-xs-12 col-md-8 col-lg-8" id="netCon">
     <div id="netandsearch">
       <div class="row">
+        <div id="slide-panel">
+          <span id="close" style="float:right">x</span>
+          <h3>Legend</h3>
+          <h4>Nodes</h4>
+          <dl class="dl-horizontal">
+            <dt>Conditions</dt>
+            <dd>
+              <svg width="30" height="30">
+                <circle cx="15" cy="15" r="12.5" stroke="#636363" fill="#d9d9d9" stroke-width="2"/>
+              </svg>
+            </dd>
+            <dt>Conditional info</dt>
+            <dd>On Click</dd>
+          </dl>
+          <h4>Edges</h4>
+          <dl class="dl-horizontal">
+            <dt>Cond. Associations</dt>
+            <dd>
+              <svg width="40" height="8">
+                <line x1="0" y1="1" x2="40" y2="1" stroke-width="5" style="stroke: #636363;"></line>
+              </svg>
+            </dd>
+          </dl>
+          <h4>Signaling States</h4>
+          <svg width="30" height="30">
+            <circle cx="15" cy="15" r="12.5" stroke="rgb(65, 55, 113)" fill="rgb(94, 79, 162)" stroke-width="2"/>
+          </svg>
+          <svg width="30" height="30">
+            <circle cx="15" cy="15" r="12.5" stroke="rgb(47, 78, 123)" fill="rgb(68, 112, 177)" stroke-width="2"/>
+          </svg>
+          <svg width="30" height="30">
+            <circle cx="15" cy="15" r="12.5" stroke="rgb(88, 142, 114)" fill="rgb(126, 203, 164)" stroke-width="2"/>
+          </svg>
+          <svg width="30" height="30">
+            <circle cx="15" cy="15" r="12.5" stroke="rgb(162, 172, 109)" fill="rgb(232, 246, 156)" stroke-width="2"/>
+          </svg>
+          <svg width="30" height="30">
+            <circle cx="15" cy="15" r="12.5" stroke="rgb(177, 158, 101)" fill="rgb(254, 227, 145)" stroke-width="2"/>
+          </svg>
+          <svg width="30" height="30">
+            <circle cx="15" cy="15" r="12.5" stroke="rgb(176, 118, 66)" fill="rgb(252, 170, 95)" stroke-width="2"/>
+          </svg>
+          <svg width="30" height="30">
+            <circle cx="15" cy="15" r="12.5" stroke="rgb(172, 91, 53)" fill="rgb(247, 131, 77)" stroke-width="2"/>
+          </svg>
+          <svg width="30" height="30">
+            <circle cx="15" cy="15" r="12.5" stroke="rgb(133, 25, 51)" fill="rgb(190, 36, 73)" stroke-width="2"/>
+          </svg>
+
+          <h4>Kinase Activities</h4>
+          <svg width="30" height="30">
+            <circle cx="15" cy="15" r="12.5" fill="rgb(0, 57, 149)" stroke="rgb(0, 39, 104)" stroke-width="2"/>
+            <text x="50%" y="50%" text-anchor="middle" dy=".3em">3</text>
+          </svg>
+          <svg width="30" height="30">
+            <circle cx="15" cy="15" r="12.5" fill="rgb(56, 132, 187)" stroke="rgb(39, 92, 130)" stroke-width="2"/>
+            <text x="50%" y="50%" text-anchor="middle" dy=".3em">2</text>
+          </svg>
+          <svg width="30" height="30">
+            <circle cx="15" cy="15" r="12.5" fill="rgb(167, 208, 228)" stroke="rgb(116, 145, 159)" stroke-width="2"/>
+            <text x="50%" y="50%" text-anchor="middle" dy=".3em">1</text>
+          </svg>
+          <svg width="30" height="30">
+            <circle cx="15" cy="15" r="12.5" fill="rgb(255, 255, 255)" stroke="rgb(178, 178, 178)" stroke-width="2"/>
+            <text x="50%" y="50%" text-anchor="middle" dy=".3em">0</text>
+          </svg>
+          <svg width="30" height="30">
+            <circle cx="15" cy="15" r="12.5" stroke="rgb(172, 128, 107)" fill="rgb(247, 183, 153)" stroke-width="2"/>
+            <text x="50%" y="50%" text-anchor="middle" dy=".3em">-1</text>
+          </svg>
+          <svg width="30" height="30">
+            <circle cx="15" cy="15" r="12.5" fill="rgb(202, 72, 66)" stroke="rgb(141, 50, 46)" stroke-width="2"/>
+            <text x="50%" y="50%" text-anchor="middle" dy=".3em">-2</text>
+          </svg>
+          <svg width="30" height="30">
+            <circle cx="15" cy="15" r="12.5" fill="rgb(103, 0, 31)" stroke="rgb(72, 0, 21)" stroke-width="2"/>
+            <text x="50%" y="50%" text-anchor="middle" dy=".3em">-3</text>
+          </svg>
+          <svg width="30" height="30">
+            <circle cx="15" cy="15" r="12.5" fill="rgb(205, 201, 201)" stroke="rgb(143, 140, 140)" stroke-width="2"/>
+            <text x="50%" y="50%" text-anchor="middle" dy=".3em">NA</text>
+          </svg>
+          <h4>Visualization</h4>
+          <dl class="dl-horizontal">
+            <dt>Zoom</dt>
+            <dd>Scroll</dd>
+            <dt>Layout</dt>
+            <dd>Node Drag & Drop</dd>
+            <dt>Pan</dt>
+            <dd>Drag background</dd>
+          </dl>        
+        </div>
         <div class="col-md-4">
           <div class="input-group input-group-md select2-bootstrap-prepend">
+            <span class="input-group-btn">
+	      <button class="btn btn-default xbtn" id="opener" type="button">
+	        <span class="glyphicon glyphicon-question-sign"></span>
+	      </button>
+	    </span>
             <span class="input-group-btn">
 	      <button class="btn btn-default xbtn" type="button" data-select2-open="select2-input-group-append">
 	        <span class="glyphicon glyphicon-search"></span>
@@ -122,6 +220,6 @@
   </div>
 </footer>
 
-    <script src="/phosfate/assets/application-9202e6938b9e18da9251b52731326597.js"></script>
+    <script src="/phosfate/assets/application-d06b86af6831789190b3c553149cc4d0.js"></script>
   </body>
 </html>
