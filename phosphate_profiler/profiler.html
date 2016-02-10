@@ -1,0 +1,229 @@
+---
+layout: shiny_layout
+title: Profiler
+group: "navigation"
+weight: 1
+---
+
+<div class="container-fluid">
+  <div data-display-if="input.submitButton != null &amp;&amp; input.submitButton != 0">
+    <div class="tabbable tabs-above">
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a href="#tab-4163-1" data-toggle="tab" data-value="Summary">Summary</a>
+        </li>
+        <li>
+          <a href="#tab-4163-2" data-toggle="tab" data-value="Kinase Activities">Kinase Activities</a>
+        </li>
+        <li>
+          <a href="#tab-4163-3" data-toggle="tab" data-value="Activity Similarities">Activity Similarities</a>
+        </li>
+        <li>
+          <a href="#tab-4163-4" data-toggle="tab" data-value="Complex Regulation">Complex Regulation</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" data-value="Summary" id="tab-4163-1">
+          <div class="row">
+            <div class="col-sm-4 topbottoms">
+              <h5><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Top 5 Upregulated Kinases</h5>
+              {% raw %}
+              {{ topKinases }}
+              {% endraw %}
+              <a href="#tab-4163-2" data-toggle="tab" data-value="Kinase Activities">Show More</a>
+            </div>
+            <div class="col-sm-4 topbottoms">
+              <h5><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Top 5 Similar Conditions</h5>
+              {% raw %}
+              {{ topSimilar }}
+              {% endraw %}
+              <a href="#tab-4163-3" data-toggle="tab" data-value="Activity Similarities">Show More</a>
+            </div>
+            <div class="col-sm-4 topbottoms">
+              <h5><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Top 5 Upregulated Complexes</h5>
+              {% raw %}
+              {{ topComplexes }}
+              {% endraw %}
+              <a href="#tab-4163-4" data-toggle="tab" data-value="Complex Regulation">Show More</a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4 topbottoms">
+              <h5><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span> Top 5 Downregulated Kinases</h5>
+              {% raw %}
+              {{ bottomKinases }}
+              {% endraw %}
+              <a href="#tab-4163-2" data-toggle="tab" data-value="Kinase Activities">Show More</a>
+            </div>
+            <div class="col-sm-4 topbottoms">
+              <h5><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span> Top 5 Opposite Conditions</h5>
+              {% raw %}
+              {{ bottomSimilar }}
+              {% endraw %}
+              <a href="#tab-4163-3" data-toggle="tab" data-value="Activity Similarities">Show More</a>
+            </div>
+            <div class="col-sm-4 topbottoms">
+              <h5><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span> Top 5 Downregulated Complexes</h5>
+              {% raw %}
+              {{ bottomComplexes }}
+              {% endraw %}
+              <a href="#tab-4163-4" data-toggle="tab" data-value="Complex Regulation">Show More</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane" data-value="Kinase Activities" id="tab-4163-2">
+          <div class="row">
+            <div class="col-sm-6">
+              {% raw %}
+              {{ kinaseActBarplot }}
+              {% endraw %}
+            </div>
+            <div class="col-sm-6">
+              {% raw %}
+              {{ kinaseTable }}
+              {% endraw %}
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" data-value="Activity Similarities" id="tab-4163-3">
+          <div class="row">
+            <div class="col-sm-6">
+              {% raw %}
+              {{ kinaseSimBarplot }}
+              {% endraw %}
+            </div>
+            <div class="col-sm-6">
+              {% raw %}
+              {{ kinaseSimTable }}
+              {% endraw %}                            
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" data-value="Complex Regulation" id="tab-4163-4">
+          <div class="row">
+            <div class="col-sm-6">
+              {% raw %}
+              {{ complexesBarplot }}
+              {% endraw %}
+            </div>
+            <div class="col-sm-6">
+              {% raw %}
+              {{ complexesTable }}
+              {% endraw %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-display-if="input.submitButton == null || input.submitButton == 0">
+    <div class="row">
+      <div class="col-sm-2"></div>
+      <div class="col-sm-8">
+        <div class="well">
+          <h2>Phosfate Profiler</h2>
+          <h4>Step 1. Data format</h4>
+          <div class="form-group shiny-input-container">
+            <div class="checkbox">
+              <label>
+                <input id="header" type="checkbox" checked="checked"/>
+                <span>Header</span>
+              </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <div id="sep" class="form-group shiny-input-radiogroup shiny-input-container">
+                <label class="control-label" for="sep">Separator</label>
+                <div class="shiny-options-group">
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="sep" value="," checked="checked"/>
+                      <span>Comma</span>
+                    </label>
+                  </div>
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="sep" value=";"/>
+                      <span>Semicolon</span>
+                    </label>
+                  </div>
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="sep" value="	"/>
+                      <span>Tab</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div id="sep" class="form-group shiny-input-radiogroup shiny-input-container">
+                <label class="control-label" for="sep">Separator</label>
+                <div class="shiny-options-group">
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="sep" value="," checked="checked"/>
+                      <span>Comma</span>
+                    </label>
+                  </div>
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="sep" value=";"/>
+                      <span>Semicolon</span>
+                    </label>
+                  </div>
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="sep" value="	"/>
+                      <span>Tab</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div id="quote" class="form-group shiny-input-radiogroup shiny-input-container">
+                <label class="control-label" for="quote">Quote</label>
+                <div class="shiny-options-group">
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="quote" value=""/>
+                      <span>None</span>
+                    </label>
+                  </div>
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="quote" value="&quot;" checked="checked"/>
+                      <span>Double Quote</span>
+                    </label>
+                  </div>
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="quote" value="&#39;"/>
+                      <span>Single Quote</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr/>
+          <h4>Step 2. Upload data</h4>
+          <div class="form-group shiny-input-container">
+            <label>Quantitative Phosphoproteomics Dataset</label>
+            {% raw %}
+            {{ inputFile }}
+            {% endraw %}
+            <!-- <div id="file1_progress" class="progress progress-striped active shiny-file-input-progress"> -->
+            <!--   <div class="progress-bar"></div> -->
+            <!-- </div> -->
+          </div>
+          <div id="columnControls" class="shiny-html-output"></div>
+        </div>
+      </div>
+      <div class="col-sm-2"></div>
+    </div>
+  </div>
+</div>
