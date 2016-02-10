@@ -20,10 +20,12 @@ exclude:
   - "Rakefile"
   
 assets:
+  baseurl: "http://evocellnet.github.io/phosphate/assets"
   cache: false
   cdn: https://cdn.example.com
   skip_prefix_with_cdn: false
   prefix: "/_assets"
+  ASSET_PATH : false
   assets:
     - "*.png"
     - "bundle.css"

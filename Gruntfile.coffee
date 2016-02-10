@@ -59,9 +59,9 @@ module.exports = (grunt) ->
       
     exec:
       build:
-        cmd: 'jekyll build --trace'
+        cmd: 'jekyll build --config _config.yml,_config_dev.yml --trace'
       serve:
-        cmd: 'jekyll serve --watch'
+        cmd: 'jekyll serve --config _config.yml,_config_dev.yml --watch'
           
     # githubPages: {
     #   target: {
