@@ -15,6 +15,7 @@ iterations <- 10
 
                                         # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
+
   df <- reactive({
     inFile <- input$file1
     if(is.null(inFile)){
@@ -25,8 +26,8 @@ shinyServer(function(input, output) {
              sep=input$sep,
              quote=input$quote)
   })
-
-                                        # Customizing columns
+  
+  # Customizing columns
   output$columnControls <- renderUI({
     if(is.null(df())){
       return(NULL)
@@ -52,9 +53,14 @@ shinyServer(function(input, output) {
 
   })
 
+  
   ## KSEA Activities
   testResults <- eventReactive(input$submitButton, {
     data <- df()
+    if(is.null(data)){
+      testResults <- readRDS("data/AKTi.rds")
+      return(testResults)
+    }
     data <- data[!is.na(data[[input$quantification]]),]
     data <- data[order(data[[input$quantification]], decreasing=TRUE),]
 
@@ -62,9 +68,11 @@ shinyServer(function(input, output) {
     regulonsToRun <- regulonsSimple[sapply(regulonsSimple, function(x) length(x[x %in% sitenames])) > 0]
 
     testResults <- list()
-
-    cat(stderr(),"running...")
-
+    testResults$data <- data
+    columnList <- list(protein=input$protein,
+                       position=input$position,
+                       quantification=input$quantification)
+    testResults$column <- columnList
                                         # Create a Progress object
     progress <- shiny::Progress$new()
                                         # Make sure it closes when we exit this reactive, even if there's an error
@@ -154,14 +162,13 @@ shinyServer(function(input, output) {
     resultsDf <- resultsDf[order(resultsDf$signed,decreasing=FALSE), ,drop=FALSE]
 
     testResults$complexes <- resultsDf
-    
     testResults
-
   })
-  
+
 ######################
   ## Kinase Activities
 ###################
+  
   ## Table
   output$kinaseTable <- renderDataTable({
     df <- testResults()$activities
@@ -223,15 +230,17 @@ shinyServer(function(input, output) {
   
   ## KSEA Plot
   output$kseaPlot <- renderPlot({
-    data <- df()
-    data <- data[!is.na(data[[input$quantification]]),]
-    data <- data[order(data[[input$quantification]], decreasing=TRUE),]
+    data <- testResults()$data
+    data <- data[!is.na(data[[testResults()$column$quantification]]),]
+    data <- data[order(data[[testResults()$column$quantification]], decreasing=TRUE),]
 
-    sitenames <- paste(data[[input$protein]],data[[input$position]],sep="_")
+    sitenames <- paste(data[[testResults()$column$protein]],
+                       data[[testResults()$column$position]],
+                       sep="_")
     if(length(input$kinaseActBarplot) > 0){
       regulon <- regulonsSimple[[input$kinaseActBarplot]]
       ksea(sitenames,
-           data[[input$quantification]],
+           data[[testResults()$column$quantification]],
            regulon,
            display=TRUE,
            returnRS=FALSE,

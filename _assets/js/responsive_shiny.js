@@ -28,6 +28,11 @@ $(document).ready(function(){
         $("#results").css("visibility", "hidden");
         $("div[role='main']").css("height","0px");
     })
+
+    $("#exampleLink").click(function(){
+        $("#submitButton").click()
+        $("#results").css("visibility","visible");
+    })
     
     $("#topKinases").on("shiny:value", function(event){
         console.log("test");
