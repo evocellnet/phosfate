@@ -1,5 +1,6 @@
 library(shiny)
 library(ksea)
+library(RJSONIO)
 
 ## Necessary data
 regulonsSimple <- readRDS("data/regulons_ensembl.rds")
@@ -204,6 +205,22 @@ shinyServer(function(input, output) {
     RJSONIO::toJSON(data.frame(kinase=row.names(activities),activity=activities[,1]),byrow=TRUE, colNames=TRUE)
   })
 
+  # downloadHandler() takes two arguments, both functions.
+  output$downloadKinases <- downloadHandler(
+    filename = function() {
+      paste("kinaseActivities", "csv", sep = ".")
+    },
+    content = function(file) {
+      df <- testResults()$activities
+      df$names <- row.names(testResults()$activities)
+      df <- df[,c("names","quantSubstrates","ES","signed")]
+      df <- df[order(abs(df$signed), decreasing=TRUE),]
+      names(df) <- c("Kinase","Substrates","ES","Activity")
+      write.csv(df,file,row.names = FALSE)
+    }
+  )
+
+  
   ## KSEA Plot
   output$kseaPlot <- renderPlot({
     data <- df()
@@ -268,6 +285,18 @@ shinyServer(function(input, output) {
                     byrow=TRUE, colNames=TRUE)
   })
 
+  output$downloadSims <- downloadHandler(
+    filename = function() {
+      paste("conditionSimilarities", "csv", sep = ".")
+    },
+    content = function(file) {
+      df <- testResults()$conditionSim
+      df <- df[,c("names","cor","p.value")]
+      names(df) <- c("Other conditions","R","P-value")
+      write.csv(df,file,row.names = FALSE)
+    }
+  )
+
   
   ## ####################
   ## ## Complexes
@@ -313,5 +342,19 @@ shinyServer(function(input, output) {
                                "activity"=cplxregulation$signed),
                     byrow=TRUE, colNames=TRUE)
   })
+
+  output$downloadCplxs <- downloadHandler(
+    filename = function() {
+      paste("complexRegulation", "csv", sep = ".")
+    },
+    content = function(file) {
+      df <- testResults()$complexes
+      df <- df[,c("complexName","signed")]
+      df <- df[order(abs(df$signed), decreasing=TRUE), ]
+      names(df) <- c("Complex","Regulation")
+      write.csv(df,file,row.names = FALSE)
+    }
+  )
+
   
 })
