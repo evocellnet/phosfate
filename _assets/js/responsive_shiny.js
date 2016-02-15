@@ -27,6 +27,19 @@ $(document).ready(function(){
     $("#submitButton").click(function(){
         $("#results").css("visibility", "hidden");
         $("div[role='main']").css("height","0px");
+        setTimeout(function(){
+            if($(".shiny-progress").length == 0 && $("#results").css("visibility") == "hidden"){
+                var newdiv = $('<div></div>');
+                newdiv.addClass("alert");
+                newdiv.addClass("alert-danger");
+                var glyphi = $('<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>');
+                newdiv.append(glyphi);
+                newdiv.append("<b>Oops! Something went wrong.</b>\nPlease submit the data again and double check the format is correct.")
+                $("div[role='main']").append(newdiv);
+                $("#results").css("height","0px");
+                $("div[role='main']").css("height","100%");
+            }
+        },500)
     })
 
     $("#exampleLink").click(function(){

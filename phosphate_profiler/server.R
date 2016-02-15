@@ -21,6 +21,7 @@ shinyServer(function(input, output) {
     if(is.null(inFile)){
       return(NULL)
     }
+
     read.csv(inFile$datapath,
              header=input$header,
              sep=input$sep,
@@ -32,6 +33,8 @@ shinyServer(function(input, output) {
     if(is.null(df())){
       return(NULL)
     }
+    validate(need((nrow(df()) > 10) && (ncol(df() > 3)) , "The uploaded table is not properly formatted. Check the file format options."))
+
     list(
       h4(HTML("<span class='glyphicon glyphicon-search' aria-hidden='true'></span>"),"Preview"),
       renderTable({head(df())}),
@@ -50,23 +53,25 @@ shinyServer(function(input, output) {
       ),
       tags$hr()
     )
-
   })
 
-  
   ## KSEA Activities
   testResults <- eventReactive(input$submitButton, {
     data <- df()
+    
     if(is.null(data)){
       testResults <- readRDS("data/AKTi.rds")
       return(testResults)
     }
+
     data <- data[!is.na(data[[input$quantification]]),]
     data <- data[order(data[[input$quantification]], decreasing=TRUE),]
 
     sitenames <- paste(data[[input$protein]],data[[input$position]],sep="_")
     regulonsToRun <- regulonsSimple[sapply(regulonsSimple, function(x) length(x[x %in% sitenames])) > 0]
 
+    validate(need(length(names(regulonsToRun)) > 1 , "Oops! something went wrong.\nPlease submit the table again and double check the format is correct."))
+    
     testResults <- list()
     testResults$data <- data
     columnList <- list(protein=input$protein,
