@@ -17,12 +17,14 @@ var xAxis = d3.svg.axis()
     .scale(x)
     .orient("top");
 
+var selectedKinase="CDK1";
+
 var kinaseActBinding = new Shiny.OutputBinding();
 $.extend(kinaseActBinding, {
     find: function(scope) {
         return $(scope).find(ACTCONTAINER);
     },
-    renderValue: function(el, data) {
+    renderValue: function(el, data) {        
         var kinsvg = d3.select(el).append("svg")
             .attr("width", width - margin.left - margin.right)
             .attr("height", height + margin.top + margin.bottom)
@@ -58,6 +60,7 @@ $.extend(kinaseActBinding, {
             .attr("transform", function(d, i) { return "translate("+x(Math.min(0, d.activity))+"," + y(d.kinase) + ")"; })
             .on("mouseover", upSize)
             .on("mouseout", downSize)
+            .on("click", barClick)
         
         bar.append("rect")
             .attr("height", y.rangeBand())
@@ -125,7 +128,7 @@ function downSize(d,i){
 function updateBarChartWindow(thepwidth,thepheight){
     
     var thischart = $("#chartsvg");
-    x.range([0,thepwidth - margin.left*2 -margin.right*2])
+    x.range([0,thepwidth - margin.left -margin.right])
     y.rangeRoundBands([0, thepheight - margin.top], .2);
 
     // svg element
@@ -152,6 +155,30 @@ function updateBarChartWindow(thepwidth,thepheight){
     $("#chartsvg .y.axis line").attr("y2",thepheight);
 }
 
+function barClick(d, i){
+    selectedKinase = d.kinase;
+    console.log(selectedKinase + " clicked\n")
+    $("#kinaseActBarplot").trigger("change");
+    $('#ActivityModal h4').text(selectedKinase + " Substrates Regulation")
+    $('#ActivityModal').modal('toggle');
+}
 
-
-
+var barBinding = new Shiny.InputBinding();
+$.extend(barBinding, {
+    find: function(scope) {
+        return $(scope).find("#kinaseActBarplot");
+    },
+    setValue: function(el) {
+        selectedKinase
+    },
+    getValue: function(el) {
+        console.log(selectedKinase)
+        return selectedKinase
+    },
+    subscribe: function(el, callback) {
+        $(el).on("change.barBinding", function(e) {
+            callback();
+        });
+    }
+});
+Shiny.inputBindings.register(barBinding, 'barBinding.networkbinding');

@@ -5,8 +5,9 @@ group: "navigation"
 weight: 1
 ---
 
-<div class="container-fluid">
+<div class="div#container-fluid" id="results">
   <div data-display-if="input.submitButton != null &amp;&amp; input.submitButton != 0">
+    <!-- <div style="display: none;"> -->
     <div class="tabbable tabs-above">
       <ul class="nav nav-tabs">
         <li class="active">
@@ -85,6 +86,24 @@ weight: 1
               {% endraw %}
             </div>
           </div>
+          <div class="modal fade" tabindex="-1" role="dialog" id="ActivityModal" aria-labelledby="ActivityModalLabel">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                  {% raw %}
+                  {{ kseaPlot }}
+                  {% endraw %}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+          </div><!-- /.modal -->          
         </div>
         <div class="tab-pane" data-value="Activity Similarities" id="tab-4163-3">
           <div class="row">
@@ -118,101 +137,87 @@ weight: 1
     </div>
   </div>
   <div data-display-if="input.submitButton == null || input.submitButton == 0">
+    <!-- <div> -->
     <div class="row">
       <div class="col-sm-2"></div>
       <div class="col-sm-8">
         <div class="well">
-          <h2>Phosfate Profiler</h2>
-          <h4>Step 1. Data format</h4>
-          <div class="form-group shiny-input-container">
-            <div class="checkbox">
-              <label>
-                <input id="header" type="checkbox" checked="checked"/>
-                <span>Header</span>
-              </label>
-            </div>
+          <h2><span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span>PhosFate Profiler</h2>
+          <div class="description">
+            <p>Some explanation here...The uploaded data remains confidential.</p>
           </div>
-          <div class="row">
-            <div class="col-sm-4">
-              <div id="sep" class="form-group shiny-input-radiogroup shiny-input-container">
-                <label class="control-label" for="sep">Separator</label>
-                <div class="shiny-options-group">
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="sep" value="," checked="checked"/>
-                      <span>Comma</span>
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="sep" value=";"/>
-                      <span>Semicolon</span>
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="sep" value="	"/>
-                      <span>Tab</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-4">
-              <div id="sep" class="form-group shiny-input-radiogroup shiny-input-container">
-                <label class="control-label" for="sep">Separator</label>
-                <div class="shiny-options-group">
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="sep" value="," checked="checked"/>
-                      <span>Comma</span>
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="sep" value=";"/>
-                      <span>Semicolon</span>
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="sep" value="	"/>
-                      <span>Tab</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-4">
-              <div id="quote" class="form-group shiny-input-radiogroup shiny-input-container">
-                <label class="control-label" for="quote">Quote</label>
-                <div class="shiny-options-group">
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="quote" value=""/>
-                      <span>None</span>
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="quote" value="&quot;" checked="checked"/>
-                      <span>Double Quote</span>
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="quote" value="&#39;"/>
-                      <span>Single Quote</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <hr/>
-          <h4>Step 2. Upload data</h4>
+          <div class="step">
+          <h4><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>Upload Dataset</h4>
+          <p>Upload a CSV file containing a quantitative phosphoproteomic dataset. A 3 column table containing protein, position and quantification is recommended.</p>
           <div class="form-group shiny-input-container">
-            <label>Quantitative Phosphoproteomics Dataset</label>
+            <a data-toggle="collapse" href="#fileformatoptions" aria-expanded="false" aria-controls="fileformatoptions" id="formatcontroller">
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>File Format Options
+            </a>
+            <div class="collapse" id="fileformatoptions">
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group shiny-input-container">
+                    <div class="checkbox">
+                      <label>
+                        <input id="header" type="checkbox" checked="checked"/>
+                        <span>Header</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div id="sep" class="form-group shiny-input-radiogroup shiny-input-container">
+                    <label class="control-label" for="sep">Separator</label>
+                    <div class="shiny-options-group">
+                      <div class="radio">
+                        <label>
+                          <input type="radio" name="sep" value="," checked="checked"/>
+                          <span>Comma</span>
+                        </label>
+                      </div>
+                      <div class="radio">
+                        <label>
+                          <input type="radio" name="sep" value=";"/>
+                          <span>Semicolon</span>
+                        </label>
+                      </div>
+                      <div class="radio">
+                        <label>
+                          <input type="radio" name="sep" value="	"/>
+                          <span>Tab</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div id="quote" class="form-group shiny-input-radiogroup shiny-input-container">
+                    <label class="control-label" for="quote">Quote</label>
+                    <div class="shiny-options-group">
+                      <div class="radio">
+                        <label>
+                          <input type="radio" name="quote" value=""/>
+                          <span>None</span>
+                        </label>
+                      </div>
+                      <div class="radio">
+                        <label>
+                          <input type="radio" name="quote" value="&quot;" checked="checked"/>
+                          <span>Double Quote</span>
+                        </label>
+                      </div>
+                      <div class="radio">
+                        <label>
+                          <input type="radio" name="quote" value="&#39;"/>
+                          <span>Single Quote</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {% raw %}
             {{ inputFile }}
             {% endraw %}
@@ -220,7 +225,11 @@ weight: 1
             <!--   <div class="progress-bar"></div> -->
             <!-- </div> -->
           </div>
+          </div>
           <div id="columnControls" class="shiny-html-output"></div>
+          <button id="submitButton" type="button" class="btn btn-primary action-button shiny-bound-input" style="display:none"><span class="glyphicon glyphicon-random" aria-hidden="true"></span>Submit</button>
+          <!-- <div id="resultBoxCntainer" class="shiny-html-output" style="display:none;"></div> -->
+          <!-- </div> -->
         </div>
       </div>
       <div class="col-sm-2"></div>

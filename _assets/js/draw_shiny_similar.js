@@ -108,7 +108,7 @@ function updateBarSimWindow(thepwidth,thepheight){
         
     var thischart = $("#simchartsvg");
   
-    xsim.range([0,thepwidth - margin.left*2 - margin.right*2])
+    xsim.range([0,thepwidth - margin.left - margin.right])
     ysim.rangeRoundBands([0, thepheight - margin.top], .2);
   
     // svg element

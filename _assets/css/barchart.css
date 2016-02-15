@@ -91,8 +91,160 @@
   fill: white;
 }
 
-label {
+.select2-container label {
   position: absolute;
   top: 10px;
   right: 10px;
+}
+
+.select2-search label {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* Panels in summary page */
+.topbottoms{
+    margin-top:50px;
+}
+
+.glyphicon-arrow-up{
+    color: rgb(33, 102, 172);
+}
+
+.glyphicon-arrow-down{
+    color: rgb(178, 24, 43);
+}
+
+/* progress bar */
+
+.shiny-progress-container{
+    position:relative;
+    width: 100%;
+    z-index:auto;
+    min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+    min-height: 100vh; /* These two lines are counted as one :-)       */
+    display: flex;
+    align-items: center;
+}
+
+.shiny-progress{
+    background-color: #fafafa;
+    border: 1px solid #e8e8e8;
+    float: none;
+    margin: 0 auto;
+    position: relative;
+    padding: 40px;
+    right: 0px;
+}
+
+div.progress-text{
+    top:0px !important;
+    margin-top: 10px;
+}
+
+.shiny-progress .progress-text{
+    right: 3px;
+    position: relative;
+    background-color: transparent;
+    white-space: nowrap;
+    display: block;
+}
+
+.shiny-progress .progress{
+    position: relative;
+    height: 20px;
+    margin: 5px 0px;
+}
+
+.progress{
+    padding:0px;
+}
+
+.shiny-progress .progress-text .progress-message{
+    /* padding: 0px 0px; */
+    font-size: 100%;
+}
+
+span.progress-message{
+    display:block;
+    right: 3px;
+}
+
+/* table format */
+#results table.data td[align=right]{
+    font-family: "Open Sans", "Helvetica Neue";
+    text-align: center;
+}
+
+#results .table-bordered{
+    border: 0px;
+}
+
+#results .table > thead > tr > th,
+#results .table > tbody > tr > th,
+#results .table > tfoot > tr > th,
+#results .table > thead > tr > td,
+#results .table > tbody > tr > td,
+#results .table > tfoot > tr > td{
+    border-top: 0px;
+}
+
+#results .table-bordered > thead > tr > th,
+#results .table-bordered > tbody > tr > th,
+#results .table-bordered > tfoot > tr > th,
+#results .table-bordered > thead > tr > td,
+#results .table-bordered > tbody > tr > td,
+#results .table-bordered > tfoot > tr > td{
+    border: 0px;
+    padding: 7px;
+}
+                                                                                                                                                                                
+th{
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #666666;
+    font-weight: bold;
+    text-align: center;
+}
+
+label.control-label{
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+#fileformatoptions{
+    margin-top:10px;
+    margin-bottom:20px;
+}
+
+div.step{
+    padding-top: 7px;
+    padding-bottom:10px;
+}
+
+div.description{
+    padding-top: 10px;
+    padding-bottom:10px;
+}
+
+div#file1_progress.progress.progress-striped.shiny-file-input-progress{
+    margin-top: 15px;
+}
+
+input#file1.shiny-bound-input{
+    padding: 5px 0px
+}
+
+#columnControls table{
+    margin: 7px auto;
+}
+
+span.glyphicon{
+    margin-right: 10px;
+}
+
+#fileformatoptions{
+    margin: 7px 27px
 }

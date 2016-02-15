@@ -1,4 +1,3 @@
-#= require vendor/bootstrap.min
 #= require vendor/d3.min
 #= require draw_shiny_barchart
 #= require draw_shiny_similar

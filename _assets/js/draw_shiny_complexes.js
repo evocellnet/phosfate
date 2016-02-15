@@ -113,7 +113,7 @@ function updateBarCplxWindow(thepwidth,thepheight){
 
     var thischart = $("#cplxsvg");
 
-    xcplx.range([0,thepwidth - margin.left*2 -margin.right*2])
+    xcplx.range([0,thepwidth - margin.left -margin.right])
     ycplx.rangeRoundBands([0, thepheight - margin.top], .2);
     
     // svg element
