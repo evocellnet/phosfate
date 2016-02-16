@@ -11,7 +11,7 @@ complexesListEnsembl <- tapply(as.character(complexesNR$ensembl_id),complexesNR$
 complexesListUniprot <- tapply(as.character(complexesNR$uniprot),complexesNR$complex_id, function(x) unique(x))
 complexid2name <- tapply(as.character(complexesNR$name),complexesNR$complex_id, function(x) unique(x))
 
-iterations <- 10
+iterations <- 1000
 
                                         # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
@@ -33,7 +33,7 @@ shinyServer(function(input, output) {
     if(is.null(df())){
       return(NULL)
     }
-    validate(need((nrow(df()) > 10) && (ncol(df() > 3)) , "The uploaded table is not properly formatted. Check the file format options."))
+    validate(need((nrow(df()) > 10) && (ncol(df() != 3)) , "The uploaded table is not properly formatted. Check the file format options."))
 
     list(
       h4(HTML("<span class='glyphicon glyphicon-search' aria-hidden='true'></span>"),"Preview"),
