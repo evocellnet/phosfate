@@ -258,3 +258,8 @@ span.glyphicon{
     border: 1px solid transparent;
     border-radius: 4px
 }
+
+.navbar-header img{
+    height: 30px;
+    margin: 8px 30px;
+}
