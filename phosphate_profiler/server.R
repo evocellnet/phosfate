@@ -63,9 +63,14 @@ shinyServer(function(input, output) {
       testResults <- readRDS("data/AKTi.rds")
       return(testResults)
     }
-
+    
     data <- data[!is.na(data[[input$quantification]]),]
     data <- data[order(data[[input$quantification]], decreasing=TRUE),]
+
+    if(input$quantificationFormat == "Ratio"){
+      validate(need(min(data[[input$quantification]]) >= 0 , "It seems your protein quantifications are not ratios. Please check again the formatting."))
+      data[[input$quantification]] <- log2(data[[input$quantification]])
+    }
 
     sitenames <- paste(data[[input$protein]],data[[input$position]],sep="_")
     regulonsToRun <- regulonsSimple[sapply(regulonsSimple, function(x) length(x[x %in% sitenames])) > 0]
