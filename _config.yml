@@ -32,6 +32,7 @@ assets:
   digest: true
   sources:
     - "_assets/js"
+    - "_assets/img"
     - "_assets/css"
     - "_assets/css/vendor"
     - "_assets/js/vendor"
