@@ -3,12 +3,8 @@ library(ksea)
 library(RJSONIO)
 
 ## Necessary data
-regulonsSimple <- readRDS("data/regulons_ensembl.rds")
 allactivities <- readRDS("data/activities_ensembl.rds")
-complexesNR <- readRDS("data/complexes.rds")
-                                        #tomove
-complexesListEnsembl <- tapply(as.character(complexesNR$ensembl_id),complexesNR$complex_id, function(x) unique(x))
-complexesListUniprot <- tapply(as.character(complexesNR$uniprot),complexesNR$complex_id, function(x) unique(x))
+complexesNR <- readRDS("data/complexes.rds")                                        #tomove
 complexid2name <- tapply(as.character(complexesNR$name),complexesNR$complex_id, function(x) unique(x))
 
 iterations <- 10
@@ -55,6 +51,24 @@ shinyServer(function(input, output) {
     )
   })
 
+  regulonsSimpleData <- eventReactive(input$proteinDB, {
+    regulonsSimple <- list()
+    if(input$proteinDB == "Ensembl"){
+      regulonsSimple <- readRDS("data/regulons_ensembl.rds")
+    }else{
+      regulonsSimple <- readRDS("data/regulons_uniprot.rds")
+    }
+  })
+
+  complexesListData <- eventReactive(input$proteinDB, {
+    complexesList <- list()
+    if(input$proteinDB == "Ensembl"){
+      complexesList <- tapply(as.character(complexesNR$ensembl_id),complexesNR$complex_id, function(x) unique(x))
+    }else{
+      complexesList <- tapply(as.character(complexesNR$uniprot),complexesNR$complex_id, function(x) unique(x))
+    }
+  })
+  
   ## KSEA Activities
   testResults <- eventReactive(input$submitButton, {
     data <- df()
@@ -72,11 +86,13 @@ shinyServer(function(input, output) {
       data[[input$quantification]] <- log2(data[[input$quantification]])
     }
 
+    regulonsSimple <- regulonsSimpleData()
+    
     sitenames <- paste(data[[input$protein]],data[[input$position]],sep="_")
     regulonsToRun <- regulonsSimple[sapply(regulonsSimple, function(x) length(x[x %in% sitenames])) > 0]
 
     validate(need(length(names(regulonsToRun)) > 1 , "Oops! something went wrong.\nPlease submit the table again and double check the format is correct."))
-    
+
     testResults <- list()
     testResults$data <- data
     columnList <- list(protein=input$protein,
@@ -137,10 +153,10 @@ shinyServer(function(input, output) {
     
     progress$set(message = "Calculating Complex Regulation", value = 0)
                                         #adjust in the future
-    complexesList <- complexesListEnsembl
     
     logvalues <- data[[input$quantification]]
     ranking <- data[[input$protein]]
+    complexesList <- complexesListData()
     complexesToRun <- complexesList[sapply(complexesList, function(x) length(unique(logvalues[ranking %in% x]))) > 1]
 
     results <- list()
@@ -240,6 +256,7 @@ shinyServer(function(input, output) {
   
   ## KSEA Plot
   output$kseaPlot <- renderPlot({
+    regulonsSimple <- regulonsSimpleData()
     data <- testResults()$data
     data <- data[!is.na(data[[testResults()$column$quantification]]),]
     data <- data[order(data[[testResults()$column$quantification]], decreasing=TRUE),]
