@@ -11,7 +11,7 @@ complexesListEnsembl <- tapply(as.character(complexesNR$ensembl_id),complexesNR$
 complexesListUniprot <- tapply(as.character(complexesNR$uniprot),complexesNR$complex_id, function(x) unique(x))
 complexid2name <- tapply(as.character(complexesNR$name),complexesNR$complex_id, function(x) unique(x))
 
-iterations <- 1000
+iterations <- 10
 
                                         # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
