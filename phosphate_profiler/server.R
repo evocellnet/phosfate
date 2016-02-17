@@ -6,8 +6,10 @@ library(RJSONIO)
 allactivities <- readRDS("data/activities_ensembl.rds")
 complexesNR <- readRDS("data/complexes.rds")                                        #tomove
 complexid2name <- tapply(as.character(complexesNR$name),complexesNR$complex_id, function(x) unique(x))
-
 iterations <- 10
+regulonsSimpleData <- reactiveValues()
+regulonsSimpleData[["Ensembl"]] <- readRDS("data/regulons_ensembl.rds")
+regulonsSimpleData[["Uniprot"]] <- readRDS("data/regulons_uniprot.rds")
 
                                         # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
@@ -50,17 +52,8 @@ shinyServer(function(input, output) {
       tags$hr()
     )
   })
-
-  regulonsSimpleData <- eventReactive(input$proteinDB, {
-    regulonsSimple <- list()
-    if(input$proteinDB == "Ensembl"){
-      regulonsSimple <- readRDS("data/regulons_ensembl.rds")
-    }else{
-      regulonsSimple <- readRDS("data/regulons_uniprot.rds")
-    }
-  })
-
-  complexesListData <- eventReactive(input$proteinDB, {
+      
+  complexesListData <- eventReactive(input$submitButton, {
     complexesList <- list()
     if(input$proteinDB == "Ensembl"){
       complexesList <- tapply(as.character(complexesNR$ensembl_id),complexesNR$complex_id, function(x) unique(x))
@@ -86,7 +79,7 @@ shinyServer(function(input, output) {
       data[[input$quantification]] <- log2(data[[input$quantification]])
     }
 
-    regulonsSimple <- regulonsSimpleData()
+    regulonsSimple <- regulonsSimpleData[[input$proteinDB]]
     
     sitenames <- paste(data[[input$protein]],data[[input$position]],sep="_")
     regulonsToRun <- regulonsSimple[sapply(regulonsSimple, function(x) length(x[x %in% sitenames])) > 0]
@@ -256,7 +249,11 @@ shinyServer(function(input, output) {
   
   ## KSEA Plot
   output$kseaPlot <- renderPlot({
-    regulonsSimple <- regulonsSimpleData()
+    db <- "Uniprot"
+    if(!is.null(input$proteinDB)){
+      db <- input$proteinDB
+    }
+    regulonsSimple <- regulonsSimpleData[[db]]
     data <- testResults()$data
     data <- data[!is.na(data[[testResults()$column$quantification]]),]
     data <- data[order(data[[testResults()$column$quantification]], decreasing=TRUE),]
@@ -274,8 +271,6 @@ shinyServer(function(input, output) {
            significance=FALSE)
     }
   })
-  
-
   
   ## ####################
   ## ## Condition similarity
