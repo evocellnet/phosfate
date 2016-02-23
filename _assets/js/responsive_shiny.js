@@ -39,7 +39,7 @@ $(document).ready(function(){
                 $("#results").css("height","0px");
                 $("div[role='main']").css("height","100%");
             }
-        },500)
+        },2000)
     })
 
     $("#exampleLink").click(function(){
