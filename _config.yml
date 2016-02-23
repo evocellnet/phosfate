@@ -2,7 +2,7 @@
 title: PhosFate
 email: ochoa@ebi.ac.uk
 description: An Atlas of Human Quantitative Phosphoregulation
-baseurl: "/phosfate" # the subpath of your site, e.g. /blog/
+baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://evocellnet.github.io" # the base hostname & protocol for your site
 
 # Build settings
@@ -18,14 +18,16 @@ exclude:
   - "package.json"
   - "Gruntfile.coffee"
   - "Rakefile"
+  - "Vagrantfile"
+  - "bootstrap_apache.sh"
+  - "bootstrap_shiny.sh"
   
 assets:
-  baseurl: "http://evocellnet.github.io/phosphate/assets"
+  baseurl: ""
   cache: false
   cdn: https://cdn.example.com
   skip_prefix_with_cdn: false
-  prefix: "/_assets"
-  ASSET_PATH : false
+  prefix: "/assets"
   assets:
     - "*.png"
     - "bundle.css"
@@ -36,3 +38,7 @@ assets:
     - "_assets/css"
     - "_assets/css/vendor"
     - "_assets/js/vendor"
+  features:
+    liquid: true
+    automatic_img_size: true
+    automatic_img_alt : true
