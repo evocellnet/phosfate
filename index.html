@@ -12,7 +12,7 @@ title: Home
 
 <div class="row">
   <div class="col-md-5">
-    <img class="featurette-image img-responsive" src="assets/img/activities.png">
+    {% image activities.png %}
   </div>
 
   <div class="col-md-7">
@@ -29,7 +29,7 @@ title: Home
     <p>The kinase activity profiling results useful to discriminate similar responses based on their activity changes after perturbation. Motivated by these idea, we developed a robust algorithm to order the high-dimensional kinase activities into an interpretable map that could cluster biological states and reveal progression through different signaling processes. We then use the signaling map to search for groups of conditions displaying similar kinase activity profiles as well as to find kinases specifically regulated in certain molecular responses.</p>
   </div>
   <div class="col-md-5">
-    <img class="featurette-image img-responsive" src="assets/img/map.png">
+    {% image map.png %}
   </div>
 </div>
 
@@ -40,14 +40,14 @@ title: Home
 
 <div class="row">
   <div class="col-md-5">
-    <img class="featurette-image img-responsive" src="assets/img/complex.png">
+    {% image complex.png %}
   </div>
   <div class="col-md-7">
     <p>In order to associate drivers and effectors, we looked for protein complexes presenting a synchronized regulation with kinases across conditions. In order to obtain these predictions we first calculated the undergoing complex regulation by quantifying the enrichment on highly phospho-regulated sites using the Kolmogorov-Smirnov test (KS). We observed that kinases under active regulation in the same conditions as the protein complexes could directly or indirectly drive their molecular response.</p>
   </div>
 </div>
 
-<div class="col-md-12 text-center">
+<div class="browsingbutton col-md-12 text-center">
   <a class="btn btn-primary btn-lg" href="browse.html"> Start Browsing </a>
 </div>
 
