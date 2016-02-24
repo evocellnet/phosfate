@@ -241,7 +241,7 @@ input#file1.shiny-bound-input{
     margin: 7px auto;
 }
 
-span.glyphicon{
+#results span.glyphicon{
     margin-right: 10px;
 }
 
@@ -261,5 +261,10 @@ span.glyphicon{
 
 .navbar-header img{
     height: 30px;
+    width: auto;
     margin: 8px 30px;
+}
+
+.browsingbutton{
+  margin-top:40px;
 }
