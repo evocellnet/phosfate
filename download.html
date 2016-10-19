@@ -8,19 +8,19 @@
 
   <title>Download</title>
   <meta name="description" content="An Atlas of Human Quantitative Phosphoregulation">
-  <link rel="canonical" href="http://evocellnet.github.io/phosfate/download.html">  
-  <link rel="stylesheet" href="/phosfate/assets/vendor/bootswatch/css/bootstrap.css"/>
-  <link rel="stylesheet" href="/phosfate/assets/vendor/select2/select2.css"/>
 
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="/phosfate/assets/application-4feadbac3566ec7cc639bef737d62388.css">
+  <link type="text/css" rel="stylesheet" href="assets/application-5227ef74e35d7095841662150c759d7b5ef939a3fc587c840067621528d0b1d8.css">
+
+  <link rel="canonical" href="http://phosfate.com/download.html">
+  <link rel="alternate" type="application/rss+xml" title="Phosfate" href="http://phosfate.com/feed.xml">  
 </head>
 
 
   <body>
 
-    <nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
+    <nav class="navbar navbar-lg" role="navigation">
+  <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
@@ -28,12 +28,13 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="http://evocellnet.github.io/phosfate">PhosFate</a>
+      <a class="navbar-brand" href="index.html"><img src="assets/phosfate_logo-963ffb13abf7b37b03b94ab2e24cfac9420e021bde13b2b66ba21c6cd01b8de0.png" width="728" height="149" alt="phosfate_logo.png"></a>
     </div>
 
     <div class="collapse navbar-collapse" id="navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="browse.html" class="active">Browse</a></li>
+        <li><a href="browse.html" class="active">Browser</a></li>
+        <li><a href="profiler.html" class="active">Profiler</a></li>
         <li><a href="download.html" class="active">Download</a></li>
         <li><a href="about.html" class="active">About</a></li>
       </ul>
@@ -56,16 +57,36 @@
 <div class="row">
   <div class="col-md-6">
     <div class="page-header">
-      <h4>Datasets</h4>
+      <h4>Available Datasets</h4>
     </div>
-    <p>List of available datasets:</p>
     <ul class="list-unstyled">
-      <li class="disabled"><a href="#"><span class="glyphicon glyphicon-file"></span> Description of the Compiled Quantitative Phosphoproteomic Data</a></li>
-      <li class="disabled"><a href="#"><span class="glyphicon glyphicon-file"></span> KSEA Inferred Kinase Activities Across Conditions </a></li>
-      <li class="disabled"><a href="#"><span class="glyphicon glyphicon-file"></span> Specificity Determining Kinases For The Signaling State Map </a></li>
-      <li class="disabled"><a href="#"><span class="glyphicon glyphicon-file"></span> Kinases and Complexes Displaying Coordinated Phospho-Regulation </a></li>
+      <li>
+        <a href="http://www.ebi.ac.uk/~ochoa/humanphosphoatlas/supplemental_tables/Supplementary_Table_1.xlsx">
+          <span class="glyphicon glyphicon-file"></span> Description of the Compiled Quantitative Phosphoproteomic Data
+        </a>
+      </li>
+      <li>
+        <a href="http://www.ebi.ac.uk/~ochoa/humanphosphoatlas/supplemental_tables/Supplementary_Table_2.xlsx">
+          <span class="glyphicon glyphicon-file"></span> KSEA Inferred Kinase Activities Across Conditions 
+        </a>
+      </li>
+      <li>
+        <a href="http://www.ebi.ac.uk/~ochoa/humanphosphoatlas/supplemental_tables/Supplementary_Table_6.xlsx">
+          <span class="glyphicon glyphicon-file"></span> Kinases and Complexes Displaying Coordinated Phospho-Regulation 
+        </a>
+      </li>
     </ul>
-    <span class="label label-default">Data available after publication. Stay tuned</span>
+  </div>
+  <div class="col-md-6">
+    <div class="page-header">
+      <h4>All phosphopeptide quantifications</h4>
+    </div>
+    <ul class="list-unstyled">
+      <li><a href="http://www.ebi.ac.uk/~ochoa/humanphosphoatlas/ptmdb_msb_Oct16.sql.zip "><span class="glyphicon glyphicon-save-file"></span> MySQL dump - October 2016</a></li>
+    </ul>
+    <a href="http://www.ensembl.org/info/docs/webcode/mirror/install/ensembl-data.html">
+      <span class="label label-default">Click here for a more detailed information on how to restore a MySQL dump</span>
+    </a>
   </div>
 </div>
 
@@ -81,21 +102,32 @@
   </div>
 </div>
 
+      <div id="push"></div>
     </div>
 
-    <footer class="footer">
+    <div id="footer">
   <div class="container">
-    <div class="row">
-      <div class="col-md-4 text-center">
-        <a href="http://ebi.ac.uk"><img class="featurette-image img-responsive" src="assets/img/EMBL_EBI_logo_180pixels_RGB.jpg"></a>
-      </div>
-      <div class="col-md-8 text-right">
-        <p class="text-primary"><a href="http://www.evocellnet.com/">Evocellnet (Beltrao Lab)</a></p>
-        <p class="text-muted">© 2015</p>
-      </div>
+    <div>
+      <span class="text-muted"><a href="http://www.evocellnet.com/">Evocellnet</a></span>
+    </div>
+    <a href="http://ebi.ac.uk"><img src="assets/EMBL_EBI_logo_180pixels_RGB-a95169588e28ff475a549dc5f3cbc68619b6771122e68622faddd5f25a81ecf4.png" width="236" height="247" alt="EMBL_EBI_logo_180pixels_RGB.png"></a>
+    <div>
+      <span class="text-muted"><a href="http://www.ebi.ac.uk/">EMBL-EBI</a></span>
+    </div>
   </div>
-</footer>
+</div>
 
-    <script src="/phosfate/assets/application-845cdd83d35637e4ae5c913b671fc0a4.js"></script>
+
+    <script type="text/javascript" src="assets/application-aad2334bc36559ce230b7bfe176d071a9fce055d886ca435ad68a602f7cce192.js"></script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76158848-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
   </body>
 </html>
